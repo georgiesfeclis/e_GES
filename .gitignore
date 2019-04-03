@@ -1,0 +1,30 @@
+/# All
+*.ls
+*.o
+*.sbr
+*.d
+*.ioc
+*.map
+*.hex
+*.elf
+*.xml
+*.cfg 
+*.ld
+
+
+# /
+/out
+/tmp
+/.metadata
+/RemoteSystemsTempFiles/
+
+# /
+.project
+.cproject
+.mxproject
+
+
+
+
+
+

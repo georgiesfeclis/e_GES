@@ -29,12 +29,18 @@
  * Function prototypes
  */
 void SystemClock_Config(void);
-void MX_GPIO_Init(void);
-void MX_SPI1_Init(void);
-void MX_USART1_UART_Init(void);
+static void MX_GPIO_Init(void);
+static void MX_SPI1_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_DAC_Init(void);
+static void MX_SPI2_Init(void);
 
 /* ---------------------------------------------------------------------------
  * Private variables ---------------------------------------------------------
  */
-SPI_HandleTypeDef spi1;
-UART_HandleTypeDef uart1;
+DAC_HandleTypeDef hdac;
+
+SPI_HandleTypeDef hspi1;
+SPI_HandleTypeDef hspi2;
+
+UART_HandleTypeDef huart1;

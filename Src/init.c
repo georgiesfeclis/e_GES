@@ -101,23 +101,72 @@ void SystemClock_Config(void)
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
+/* DAC init function */
+void MX_DAC_Init(void)
+{
+
+  DAC_ChannelConfTypeDef sConfig;
+
+    /**DAC Initialization 
+    */
+  hdac.Instance = DAC;
+  if (HAL_DAC_Init(&hdac) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**DAC channel OUT1 config 
+    */
+  sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+  if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
 /* SPI1 init function */
 void MX_SPI1_Init(void)
 {
 
   /* SPI1 parameter configuration*/
-  spi1.Instance = SPI1;
-  spi1.Init.Mode = SPI_MODE_SLAVE;
-  spi1.Init.Direction = SPI_DIRECTION_2LINES;
-  spi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  spi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  spi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  spi1.Init.NSS = SPI_NSS_HARD_INPUT;
-  spi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  spi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  spi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  spi1.Init.CRCPolynomial = 15;
-  if (HAL_SPI_Init(&spi1) != HAL_OK)
+  hspi1.Instance = SPI1;
+  hspi1.Init.Mode = SPI_MODE_SLAVE;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
+  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCPolynomial = 15;
+  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+/* SPI2 init function */
+void MX_SPI2_Init(void)
+{
+
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 15;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -128,15 +177,15 @@ void MX_SPI1_Init(void)
 void MX_USART1_UART_Init(void)
 {
 
-  uart1.Instance = USART1;
-  uart1.Init.BaudRate = 115200;
-  uart1.Init.WordLength = UART_WORDLENGTH_8B;
-  uart1.Init.StopBits = UART_STOPBITS_1;
-  uart1.Init.Parity = UART_PARITY_NONE;
-  uart1.Init.Mode = UART_MODE_TX_RX;
-  uart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  uart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&uart1) != HAL_OK)
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -162,20 +211,124 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, ERROR_LED_Pin|TX_LED_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, G5_IRQ_Pin|LIN_ENABLE12_Pin|LIN_ENABLE34_Pin|LIN_ENABLE56_Pin 
+                          |GPIO_3_Pin|GPIO_4_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, G3_COMMS_Pin|GPIO_5_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, SPI2_NSS_Pin|SLAVE_SELECT1_Pin|SLAVE_SELECT2_Pin|SLAVE_SELECT3_Pin 
+                          |SLAVE_SELECT4_Pin|SLAVE_SELECT5_Pin|SLAVE_SELECT6_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pins : ERROR_LED_Pin TX_LED_Pin */
+  GPIO_InitStruct.Pin = ERROR_LED_Pin|TX_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : G5_IRQ_Pin */
+  GPIO_InitStruct.Pin = G5_IRQ_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(G5_IRQ_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LIN_IRQ4_Pin LIN_IRQ3_Pin */
+  GPIO_InitStruct.Pin = LIN_IRQ4_Pin|LIN_IRQ3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pins : LIN_IRQ2_Pin LIN_IRQ1_Pin */
+  GPIO_InitStruct.Pin = LIN_IRQ2_Pin|LIN_IRQ1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BOOT1_Pin */
+  GPIO_InitStruct.Pin = BOOT1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BOOT1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : G3_COMMS_Pin */
+  GPIO_InitStruct.Pin = G3_COMMS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(G3_COMMS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : SPI2_NSS_Pin SLAVE_SELECT1_Pin SLAVE_SELECT2_Pin SLAVE_SELECT3_Pin 
+                           SLAVE_SELECT4_Pin SLAVE_SELECT5_Pin SLAVE_SELECT6_Pin */
+  GPIO_InitStruct.Pin = SPI2_NSS_Pin|SLAVE_SELECT1_Pin|SLAVE_SELECT2_Pin|SLAVE_SELECT3_Pin 
+                          |SLAVE_SELECT4_Pin|SLAVE_SELECT5_Pin|SLAVE_SELECT6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LIN_ENABLE12_Pin LIN_ENABLE34_Pin LIN_ENABLE56_Pin */
+  GPIO_InitStruct.Pin = LIN_ENABLE12_Pin|LIN_ENABLE34_Pin|LIN_ENABLE56_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : UNDER_3V3_Pin */
+  GPIO_InitStruct.Pin = UNDER_3V3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(UNDER_3V3_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : UNDER_5V_Pin */
+  GPIO_InitStruct.Pin = UNDER_5V_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(UNDER_5V_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : GPIO_1_Pin */
+  GPIO_InitStruct.Pin = GPIO_1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIO_1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : GPIO_2_Pin */
+  GPIO_InitStruct.Pin = GPIO_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIO_2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : GPIO_3_Pin GPIO_4_Pin */
+  GPIO_InitStruct.Pin = GPIO_3_Pin|GPIO_4_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : GPIO_5_Pin */
+  GPIO_InitStruct.Pin = GPIO_5_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIO_5_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
@@ -204,7 +357,7 @@ void _Error_Handler(char *file, int line)
   * @retval None
   */
 void assert_failed(uint8_t* file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

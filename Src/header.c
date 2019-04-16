@@ -13,10 +13,11 @@
  */
 #include <header.h>
 #include "stdint.h"
+#include "uart_buffer.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
-
+static t_Header_PacketID UART_PackID = NO_DATA;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -40,38 +41,31 @@
 /* ----------------------------------------------------------------------------
  * Public functions
  */
+/* ----------------------------------------------------------------------------*/
 /*
- * This function returns the type of data that has been sent from PC
- * based on parsed in pointed rx buffer
+ * Read UART Rx buffer and set Pack ID type (i.e Sensor data or Configuration data)
  */
-t_Header_PacketID read_datapack_type_header(uint8_t *pBuffer)
+void header_uart_packID_set(const uint8_t packetBuffer[])
 {
-	t_Header_PacketID retVal = ERROR_DATA;
-
-	if((pBuffer[0] & HEADER_PACK_ID_MASK) == SENSOR_DATA_FLAG)
+	if((packetBuffer[0] & HEADER_PACK_ID_MASK) == SENSOR_DATA_FLAG)
 	{
-		retVal = SENSOR_DATA;
+		UART_PackID = SENSOR_DATA;
 	}
-	else if((pBuffer[0] & HEADER_PACK_ID_MASK) == CONFIG_DATA_FLAG)
+	else if((packetBuffer[0] & HEADER_PACK_ID_MASK) == CONFIG_DATA_FLAG)
 	{
-		retVal = CONFIG_DATA;
+		UART_PackID = CONFIG_DATA;
 	}
-
-	return retVal;
 }
 
+/* ----------------------------------------------------------------------------*/
 /*
- * Empty buffer
+ * Return Pack ID type
  */
-void clear_buffer(uint8_t * pBuffer)
+t_Header_PacketID header_uart_packID_get(void)
 {
-	uint8_t i = 0;
-
-	for(i = 0; i < sizeof(pBuffer); i++)
-	{
-		pBuffer[i] = 0;
-	}
+	return UART_PackID;
 }
+
 
 
 

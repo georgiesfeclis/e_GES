@@ -2,14 +2,13 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
  */
 
-#ifndef COMMON_H_
-#define COMMON_H_
+#ifndef PROCESS_PACKET_H_
+#define PROCESS_PACKET_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
@@ -22,19 +21,10 @@
 /* ---------------------------------------------------------------------------
  * Macros
  */
-#define OK     ((uint8_t) 1)
-#define NOK    ((uint8_t) 0)
 
 /* ---------------------------------------------------------------------------
  * Types
  */
-typedef enum
-{
-	INCOMPLETE = 0,
-	COMPLETE
-} t_uartTransferStatus;
-
-
 
 /* ---------------------------------------------------------------------------
  * Variables
@@ -43,5 +33,6 @@ typedef enum
 /* ---------------------------------------------------------------------------
  * Functions
  */
+uint8_t process_packet(const uint8_t packetBuffer[]);
 
-#endif /* COMMON_H_ */
+#endif /* PROCESS_PACKET_H_ */

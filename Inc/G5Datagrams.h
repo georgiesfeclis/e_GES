@@ -89,6 +89,6 @@ t_G5AKDatagram G5AKDatagram;
 /* ---------------------------------------------------------------------------
  * Functions
  */
-uint8_t assign_g5_data_to_datagram(uint8_t * pBuffer);
+uint8_t assign_g5_data_to_datagram(const uint8_t pBuffer[]);
 
 

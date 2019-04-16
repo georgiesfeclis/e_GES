@@ -47,7 +47,7 @@ typedef enum
  * Functions
  */
 
-t_Header_PacketID read_datapack_type_header(uint8_t *pBuffer);
-void clear_buffer(uint8_t * pBuffer);
+void header_uart_packID_set(const uint8_t packetBuffer[]);
+t_Header_PacketID header_uart_packID_get(void);
 
 #endif /* HEADER_H_ */

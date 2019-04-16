@@ -54,7 +54,7 @@
  * Read G5 Sensor Packet ID (byte 3) to determine datagram type
  * and assign data to specific structure
  */
-uint8_t assign_g5_data_to_datagram(uint8_t * pBuffer)
+uint8_t assign_g5_data_to_datagram(const uint8_t pBuffer[])
 {
 	uint8_t retVal;
 	uint8_t gen5_packet_id = pBuffer[3];

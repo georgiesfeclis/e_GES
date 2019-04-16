@@ -11,16 +11,14 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include "main.h"
-/* ----------------------------------------------------------------------------
- * Uses
- */
+#include "uart_buffer.h"
 #include "init.h"
 #include "path.h"
 #include "header.h"
 #include "G5Datagrams.h"
 #include "uart_isr.h"
 #include "common.h"
+#include "process_packet.h"
 
 /* ----------------------------------------------------------------------------
  * Private types
@@ -45,60 +43,55 @@
 /* ----------------------------------------------------------------------------
  * Public variables
  */
-extern uint8_t TransferStatus;
-extern uint8_t PackID;
-uint8_t TxData[] = "Hello, World!\n";
-uint8_t SPI_Rx[10] = {0};
+
+//static uint8_t TxData[] = "some stuff going on in background\n";
+//uint8_t SPI_Rx[10] = {0};
 /* ----------------------------------------------------------------------------
  * Public functions
  */
 
 int main(void)
 {
+	uint8_t * const packetBuffer = uart_rxBuffer_get();
 
-	  HAL_Init();
+	HAL_Init();
 
-	  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-	  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-	  /* Configure the system clock */
-	  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-	  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-	  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-	  /* Initialize all configured peripherals */
-	  MX_GPIO_Init();
-	  MX_SPI1_Init();
-	  MX_USART1_UART_Init();
-	  MX_DAC_Init();
-	  MX_SPI2_Init();
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	//	  MX_SPI1_Init();
+	MX_USART1_UART_Init();
+	//	  MX_DAC_Init();
+	//	  MX_SPI2_Init();
 
-  HAL_UART_Receive_IT(&uart1, &RxData[0], 1);
 
-  path_init();
+	path_init();
 
-  /* Infinite loop */
-  while (1)
-  {
+	uart_isr_init();
 
-	  HAL_SPI_Receive(&spi1, &SPI_Rx[0], 10, HAL_MAX_DELAY);
-//	  HAL_UART_Transmit(&uart1, &TxData[0], 20, HAL_MAX_DELAY);
-//	  HAL_Delay(500);
 
-	  if(TransferStatus != 0)
+	/* Infinite loop */
+	while (1)
+	{
+
+	//	  HAL_SPI_Receive(&spi1, &SPI_Rx[0], 10, HAL_MAX_DELAY);
+	//	  HAL_UART_Transmit(&uart1, &TxData[0], 35, HAL_MAX_DELAY);
+	//	  HAL_Delay(500);
+
+	  if(uart_data_transfer_status_get() == COMPLETE)
 	  {
-		  if(PackID == CONFIG_DATA)
-		  {
-			  init_path_for_header_config(&RxBuffer[0]);
-
-		  }
-		  else if(PackID == SENSOR_DATA)
-		  {
-			  assign_g5_data_to_datagram(&RxBuffer[0]);
-		  }
+		  process_packet(&packetBuffer[0]);
+		  PacketBuffer_Reset();
 	  }
 
   }

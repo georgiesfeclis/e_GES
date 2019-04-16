@@ -4,22 +4,43 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Src/G5Datagrams.c \
+../Src/header.c \
+../Src/init.c \
 ../Src/main.c \
+../Src/path.c \
+../Src/process_packet.c \
 ../Src/stm32f4xx_hal_msp.c \
 ../Src/stm32f4xx_it.c \
-../Src/system_stm32f4xx.c 
+../Src/system_stm32f4xx.c \
+../Src/uart_buffer.c \
+../Src/uart_isr.c 
 
 OBJS += \
+./Src/G5Datagrams.o \
+./Src/header.o \
+./Src/init.o \
 ./Src/main.o \
+./Src/path.o \
+./Src/process_packet.o \
 ./Src/stm32f4xx_hal_msp.o \
 ./Src/stm32f4xx_it.o \
-./Src/system_stm32f4xx.o 
+./Src/system_stm32f4xx.o \
+./Src/uart_buffer.o \
+./Src/uart_isr.o 
 
 C_DEPS += \
+./Src/G5Datagrams.d \
+./Src/header.d \
+./Src/init.d \
 ./Src/main.d \
+./Src/path.d \
+./Src/process_packet.d \
 ./Src/stm32f4xx_hal_msp.d \
 ./Src/stm32f4xx_it.d \
-./Src/system_stm32f4xx.d 
+./Src/system_stm32f4xx.d \
+./Src/uart_buffer.d \
+./Src/uart_isr.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

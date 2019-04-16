@@ -109,8 +109,8 @@ void MX_DAC_Init(void)
 
     /**DAC Initialization 
     */
-  hdac.Instance = DAC;
-  if (HAL_DAC_Init(&hdac) != HAL_OK)
+  dac.Instance = DAC;
+  if (HAL_DAC_Init(&dac) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -119,7 +119,7 @@ void MX_DAC_Init(void)
     */
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
   sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
-  if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+  if (HAL_DAC_ConfigChannel(&dac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -131,18 +131,18 @@ void MX_SPI1_Init(void)
 {
 
   /* SPI1 parameter configuration*/
-  hspi1.Instance = SPI1;
-  hspi1.Init.Mode = SPI_MODE_SLAVE;
-  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
-  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi1.Init.CRCPolynomial = 15;
-  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  spi1.Instance = SPI1;
+  spi1.Init.Mode = SPI_MODE_SLAVE;
+  spi1.Init.Direction = SPI_DIRECTION_2LINES;
+  spi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  spi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  spi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  spi1.Init.NSS = SPI_NSS_HARD_INPUT;
+  spi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  spi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  spi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  spi1.Init.CRCPolynomial = 15;
+  if (HAL_SPI_Init(&spi1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -154,19 +154,19 @@ void MX_SPI2_Init(void)
 {
 
   /* SPI2 parameter configuration*/
-  hspi2.Instance = SPI2;
-  hspi2.Init.Mode = SPI_MODE_MASTER;
-  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi2.Init.CRCPolynomial = 15;
-  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  spi2.Instance = SPI2;
+  spi2.Init.Mode = SPI_MODE_MASTER;
+  spi2.Init.Direction = SPI_DIRECTION_2LINES;
+  spi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  spi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  spi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  spi2.Init.NSS = SPI_NSS_SOFT;
+  spi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  spi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  spi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  spi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  spi2.Init.CRCPolynomial = 15;
+  if (HAL_SPI_Init(&spi2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -177,15 +177,15 @@ void MX_SPI2_Init(void)
 void MX_USART1_UART_Init(void)
 {
 
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
+  uart1.Instance = USART1;
+  uart1.Init.BaudRate = 115200;
+  uart1.Init.WordLength = UART_WORDLENGTH_8B;
+  uart1.Init.StopBits = UART_STOPBITS_1;
+  uart1.Init.Parity = UART_PARITY_NONE;
+  uart1.Init.Mode = UART_MODE_TX_RX;
+  uart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  uart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&uart1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }

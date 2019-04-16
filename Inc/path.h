@@ -44,11 +44,11 @@
  */
 
 void path_init(void);
-uint8_t init_path_for_header_config(uint8_t * pBuffer);
+uint8_t init_path_for_header_config(const uint8_t pBuffer[]);
 uint8_t set_path(uint8_t pathType);
 uint8_t get_path(void);
 void clear_path(uint8_t pathType);
-uint8_t transmit_sensor_data(uint8_t pathType, uint8_t * pBuffer);
-uint8_t transmit_data_via_path(uint8_t * pBuffer);
+uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[]);
+uint8_t transmit_data_via_path(const uint8_t pBuffer[]);
 
 #endif /* PATH_H_ */

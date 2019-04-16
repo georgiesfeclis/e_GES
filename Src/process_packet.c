@@ -2,7 +2,6 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
@@ -12,16 +11,14 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <uart_buffer.h>
-#include "uart_isr.h"
-
-// This is an upcall expected by the HAL layer
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+#include "process_packet.h"
 /* ----------------------------------------------------------------------------
  * Uses
  */
+#include "common.h"
 #include "header.h"
-#include "init.h"
+#include "path.h"
+
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -37,7 +34,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-static uint8_t UART_RxData_Byte = 0;
+
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -49,38 +46,35 @@ static uint8_t UART_RxData_Byte = 0;
 /* ----------------------------------------------------------------------------
  * Public functions
  */
-
 /* ----------------------------------------------------------------------------*/
 /*
- * UART interrupt callback - fill in UART RxBuffer
+ *
  */
 
-void uart_isr_init(void)
+uint8_t process_packet(const uint8_t packetBuffer[])
 {
+	uint8_t retVal;
 
-	HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, 1);
-}
+	header_uart_packID_set(packetBuffer);
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if (huart->Instance == USART1)
+	switch(header_uart_packID_get())
 	{
+	case CONFIG_DATA:
+		init_path_for_header_config(packetBuffer);
+		retVal = OK;
+	break;
 
+	case SENSOR_DATA:
+		transmit_data_via_path(packetBuffer);
+		retVal = OK;
+	break;
 
-		if (INCOMPLETE == uart_data_transfer_status_get())
-		{
-			if(ASCII_ENTER == UART_RxData_Byte)
-			{
-				uart_data_transfer_status_set(COMPLETE);
-			}
-			else
-			{
-				uart_rxBuffer_update(UART_RxData_Byte);
-			}
-		}
-
-		HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, 1);
+	default:
+		retVal = NOK;
+	break;
 	}
+
+	return retVal;
 }
-/* ----------------------------------------------------------------------------*/
+
 

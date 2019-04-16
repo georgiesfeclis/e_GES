@@ -16,7 +16,7 @@
  */
 #include "stm32f4xx_hal.h"
 #include <stdint.h>
-#include "header.h"
+
 /* ---------------------------------------------------------------------------
  * Constants
  */
@@ -32,12 +32,17 @@
 /* ---------------------------------------------------------------------------
  * Variables
  */
-uint8_t RxBuffer[20];
-uint8_t RxData[2];
+//uint8_t RxBuffer[20];
+//uint8_t RxData;
 
 /* ---------------------------------------------------------------------------
  * Functions
  */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+
+/*
+ * Initialise UART ISR
+ */
+void uart_isr_init(void);
+
 
 #endif /* UART_ISR_H_ */

@@ -12,13 +12,16 @@
  * Implements
  */
 #include <header.h>
-#include "path.h"
+
 /* ----------------------------------------------------------------------------
  * Uses
  */
+#include <string.h>
 #include "common.h"
 #include "init.h"
 #include "G5Datagrams.h"
+#include "uart_buffer.h"
+#include "path.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -34,7 +37,7 @@
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-
+static uint8_t current_path;
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -42,8 +45,8 @@
 /* ----------------------------------------------------------------------------
  * Public variables
  */
-static uint8_t current_path;
 
+uint8_t ErrorMessage[] = "Wrong path!";
 /* ----------------------------------------------------------------------------
  * Public functions
  */
@@ -65,7 +68,7 @@ void path_init(void)
  * This function reads the sensor type from the header and sends the command to
  * initialise path for specific header
  */
-uint8_t init_path_for_header_config(uint8_t * pBuffer)
+uint8_t init_path_for_header_config(const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
 	uint8_t pathType = pBuffer[0] & HEADER_PATH_MASK;
@@ -86,8 +89,6 @@ uint8_t init_path_for_header_config(uint8_t * pBuffer)
 		retVal = set_path(pathType);
 	}
 
-	clear_buffer(pBuffer);
-
 	return retVal;
 }
 /* ---------------------------------------------------------------------------*/
@@ -98,7 +99,7 @@ uint8_t init_path_for_header_config(uint8_t * pBuffer)
  * Check data from buffer matches the current
  * initialised path and send command to transmit data
  */
-uint8_t transmit_data_via_path(uint8_t * pBuffer)
+uint8_t transmit_data_via_path(const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
 	uint8_t pathType = pBuffer[0] & HEADER_PATH_MASK;
@@ -108,8 +109,10 @@ uint8_t transmit_data_via_path(uint8_t * pBuffer)
 		/* the path matches the header data, now assign it to the right sensor and transmit */
 		retVal = transmit_sensor_data(pathType, pBuffer);
 	}
-
-	clear_buffer(pBuffer);
+//	else
+//	{
+//		HAL_UART_Transmit_IT(&uart1, &ErrorMessage[0], strlen(&ErrorMessage[0]));
+//	}
 
 	return retVal;
 }
@@ -150,7 +153,7 @@ uint8_t set_path(uint8_t pathType)
 /*
  * Transmit data using right path
  */
-uint8_t transmit_sensor_data(uint8_t pathType, uint8_t * pBuffer)
+uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
 

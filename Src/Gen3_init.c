@@ -2,7 +2,6 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
@@ -12,16 +11,15 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <uart_buffer.h>
-
+#include "Gen3_init.h"
 /* ----------------------------------------------------------------------------
  * Uses
  */
-
+#include "init.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
-
+DAC_HandleTypeDef dac;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -33,11 +31,7 @@
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-static uint8_t UART_RxBuffer[UART_RX_BUFFER_SIZE];
-static uint8_t UART_RxIndex = 0;
 
-
-static t_uartTransferStatus transferStatus = INCOMPLETE;
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -51,60 +45,60 @@ static t_uartTransferStatus transferStatus = INCOMPLETE;
  */
 
 /* ---------------------------------------------------------------------------*/
-void uart_rxBuffer_init(void)
+void gen3_periph_init(void)
 {
-	uint8_t i;
-	for(i = 0; i < sizeof(UART_RxBuffer); i++)
-	{
-		UART_RxBuffer[i] = 0;
-	}
-}
-/* ---------------------------------------------------------------------------*/
-
-
-/* ---------------------------------------------------------------------------*/
-uint8_t * uart_rxBuffer_get(void)
-{
-	return (uint8_t *) &UART_RxBuffer;
+	gen3_GPIO_init();
+	DAC_Init();
 }
 /* ---------------------------------------------------------------------------*/
 
 /* ---------------------------------------------------------------------------*/
-void uart_rxBuffer_update(uint8_t data)
+void gen3_periph_deinit(void)
 {
-	UART_RxBuffer[UART_RxIndex++] = data;
+	HAL_GPIO_WritePin(GPIOB, G3_COMMS_Pin, GPIO_PIN_RESET);
+	HAL_DAC_Init(&dac);
 }
 /* ---------------------------------------------------------------------------*/
 
 /* ---------------------------------------------------------------------------*/
-void uart_rxBuffer_index_reset(void)
+void DAC_Init(void)
 {
-	UART_RxIndex = 0;
+
+  DAC_ChannelConfTypeDef sConfig;
+
+    /**DAC Initialization
+    */
+  dac.Instance = DAC;
+  if (HAL_DAC_Init(&dac) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**DAC channel OUT1 config
+    */
+  sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+  if (HAL_DAC_ConfigChannel(&dac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
 }
 /* ---------------------------------------------------------------------------*/
 
 /* ---------------------------------------------------------------------------*/
-void uart_data_transfer_status_set(t_uartTransferStatus status)
+void gen3_GPIO_init(void)
 {
-	transferStatus = status;
-}
-/* ---------------------------------------------------------------------------*/
 
-/* ----------------------------------------------------------------------------*/
-t_uartTransferStatus uart_data_transfer_status_get(void)
-{
-	return transferStatus;
-}
-/* ---------------------------------------------------------------------------*/
+	GPIO_InitTypeDef GPIO_InitStruct;
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(GPIOB, G3_COMMS_Pin, GPIO_PIN_RESET);
 
-/* ---------------------------------------------------------------------------*/
-void packetBuffer_reset(void)
-{
-	uart_rxBuffer_init();
-	uart_rxBuffer_index_reset();
-
-//	__DSB();
-
-	uart_data_transfer_status_set(INCOMPLETE);
+	/*Configure GPIO pin : G3_COMMS_Pin */
+	GPIO_InitStruct.Pin = G3_COMMS_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(G3_COMMS_GPIO_Port, &GPIO_InitStruct);
 }
 /* ---------------------------------------------------------------------------*/

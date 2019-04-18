@@ -2,7 +2,6 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
@@ -12,16 +11,17 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <uart_buffer.h>
-
+#include "Gen5_init.h"
 /* ----------------------------------------------------------------------------
  * Uses
  */
-
+#include "common.h"
+#include "init.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
-
+//TODO is it possible to make it static?? - IRQ handler in stm32_xxxx_it.c issue
+SPI_HandleTypeDef spi1;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -33,11 +33,7 @@
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-static uint8_t UART_RxBuffer[UART_RX_BUFFER_SIZE];
-static uint8_t UART_RxIndex = 0;
 
-
-static t_uartTransferStatus transferStatus = INCOMPLETE;
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -51,60 +47,58 @@ static t_uartTransferStatus transferStatus = INCOMPLETE;
  */
 
 /* ---------------------------------------------------------------------------*/
-void uart_rxBuffer_init(void)
+void gen5_periph_init(void)
 {
-	uint8_t i;
-	for(i = 0; i < sizeof(UART_RxBuffer); i++)
-	{
-		UART_RxBuffer[i] = 0;
-	}
-}
-/* ---------------------------------------------------------------------------*/
-
-
-/* ---------------------------------------------------------------------------*/
-uint8_t * uart_rxBuffer_get(void)
-{
-	return (uint8_t *) &UART_RxBuffer;
+	SPI1_Init();
+	G5_IRQ_Pin_Init();
 }
 /* ---------------------------------------------------------------------------*/
 
 /* ---------------------------------------------------------------------------*/
-void uart_rxBuffer_update(uint8_t data)
+void gen5_periph_deinit(void)
 {
-	UART_RxBuffer[UART_RxIndex++] = data;
+	GPIOC -> ODR &= G5_IRQ_Pin;
+	//TODO Error Handler?
+	HAL_SPI_DeInit(&spi1);
 }
 /* ---------------------------------------------------------------------------*/
 
 /* ---------------------------------------------------------------------------*/
-void uart_rxBuffer_index_reset(void)
+void SPI1_Init(void)
 {
-	UART_RxIndex = 0;
+
+  /* SPI1 parameter configuration*/
+  spi1.Instance = SPI1;
+  spi1.Init.Mode = SPI_MODE_SLAVE;
+  spi1.Init.Direction = SPI_DIRECTION_2LINES;
+  spi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  spi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  spi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  spi1.Init.NSS = SPI_NSS_HARD_INPUT;
+  spi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  spi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  spi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  spi1.Init.CRCPolynomial = 15;
+  if (HAL_SPI_Init(&spi1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 }
 /* ---------------------------------------------------------------------------*/
 
 /* ---------------------------------------------------------------------------*/
-void uart_data_transfer_status_set(t_uartTransferStatus status)
+void G5_IRQ_Pin_Init(void)
 {
-	transferStatus = status;
-}
-/* ---------------------------------------------------------------------------*/
 
-/* ----------------------------------------------------------------------------*/
-t_uartTransferStatus uart_data_transfer_status_get(void)
-{
-	return transferStatus;
-}
-/* ---------------------------------------------------------------------------*/
+	GPIO_InitTypeDef GPIO_InitStruct;
+	/*Configure GPIO pin Output Level */
+	GPIOC -> ODR &= G5_IRQ_Pin;
 
-/* ---------------------------------------------------------------------------*/
-void packetBuffer_reset(void)
-{
-	uart_rxBuffer_init();
-	uart_rxBuffer_index_reset();
-
-//	__DSB();
-
-	uart_data_transfer_status_set(INCOMPLETE);
+	/*Configure GPIO pin : G5_IRQ_Pin */
+	GPIO_InitStruct.Pin = G5_IRQ_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(G5_IRQ_GPIO_Port, &GPIO_InitStruct);
 }
 /* ---------------------------------------------------------------------------*/

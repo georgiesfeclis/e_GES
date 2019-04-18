@@ -44,8 +44,6 @@
  * Public variables
  */
 
-//static uint8_t TxData[] = "some stuff going on in background\n";
-//uint8_t SPI_Rx[10] = {0};
 /* ----------------------------------------------------------------------------
  * Public functions
  */
@@ -56,16 +54,8 @@ int main(void)
 
 	HAL_Init();
 
-	/* USER CODE BEGIN Init */
-
-	/* USER CODE END Init */
-
 	/* Configure the system clock */
 	SystemClock_Config();
-
-	/* USER CODE BEGIN SysInit */
-
-	/* USER CODE END SysInit */
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
@@ -74,9 +64,7 @@ int main(void)
 	//	  MX_DAC_Init();
 	//	  MX_SPI2_Init();
 
-
 	path_init();
-
 	uart_isr_init();
 
 
@@ -84,16 +72,14 @@ int main(void)
 	while (1)
 	{
 
-	//	  HAL_SPI_Receive(&spi1, &SPI_Rx[0], 10, HAL_MAX_DELAY);
-	//	  HAL_UART_Transmit(&uart1, &TxData[0], 35, HAL_MAX_DELAY);
-	//	  HAL_Delay(500);
-
 	  if(uart_data_transfer_status_get() == COMPLETE)
 	  {
 		  process_packet(&packetBuffer[0]);
-		  PacketBuffer_Reset();
+		  packetBuffer_reset();
 	  }
 
   }
 
 }
+
+/* ---------------------------------------------------------------------------*/

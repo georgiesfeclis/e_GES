@@ -12,7 +12,6 @@
  * Implements
  */
 #include <header.h>
-#include "stdint.h"
 #include "uart_buffer.h"
 /* ----------------------------------------------------------------------------
  * Private types
@@ -42,9 +41,6 @@ static t_Header_PacketID UART_PackID = NO_DATA;
  * Public functions
  */
 /* ----------------------------------------------------------------------------*/
-/*
- * Read UART Rx buffer and set Pack ID type (i.e Sensor data or Configuration data)
- */
 void header_uart_packID_set(const uint8_t packetBuffer[])
 {
 	if((packetBuffer[0] & HEADER_PACK_ID_MASK) == SENSOR_DATA_FLAG)
@@ -56,16 +52,15 @@ void header_uart_packID_set(const uint8_t packetBuffer[])
 		UART_PackID = CONFIG_DATA;
 	}
 }
+/* ----------------------------------------------------------------------------*/
+
 
 /* ----------------------------------------------------------------------------*/
-/*
- * Return Pack ID type
- */
 t_Header_PacketID header_uart_packID_get(void)
 {
 	return UART_PackID;
 }
-
+/* ----------------------------------------------------------------------------*/
 
 
 

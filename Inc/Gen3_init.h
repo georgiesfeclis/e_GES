@@ -2,21 +2,18 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
  */
 
-#ifndef UART_BUFFER_H_
-#define UART_BUFFER_H_
+#ifndef GEN3_INIT_H_
+#define GEN3_INIT_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
  */
-#include "stdint.h"
-#include "common.h"
-
+#include "stm32f4xx_hal.h"
 /* ---------------------------------------------------------------------------
  * Constants
  */
@@ -24,7 +21,10 @@
 /* ---------------------------------------------------------------------------
  * Macros
  */
-#define UART_RX_BUFFER_SIZE ((uint8_t) 20)
+#define G3_COMMS_Pin GPIO_PIN_10
+#define G3_COMMS_GPIO_Port GPIOB
+
+
 /* ---------------------------------------------------------------------------
  * Types
  */
@@ -38,46 +38,27 @@
  */
 
 /*
- * Initialise UART buffer
+ * Initialise Gen 3 peripherals
  */
-void uart_rxBuffer_init(void);
+void gen3_periph_init(void);
 /* ---------------------------------------------------------------------------*/
 
 /*
- * Get data from UART buffer
+ * De-Init Gen 3 peripherals
  */
-uint8_t * uart_rxBuffer_get(void);
+void gen3_periph_deinit(void);
+/* ---------------------------------------------------------------------------*/
+/*
+ * DAC init function
+ */
+void DAC_Init(void);
 /* ---------------------------------------------------------------------------*/
 
 /*
- * Store data in UART buffer
+ * Initialise the GPIOs used for Gen 3 comms
  */
-void uart_rxBuffer_update(uint8_t data);
-/* ---------------------------------------------------------------------------*/
-
-/*
- * Reset UART Rx Index
- */
-void uart_rxBuffer_index_reset(void);
-/* ---------------------------------------------------------------------------*/
-
-/*
- * Set UART data transfer status
- */
-void uart_data_transfer_status_set(t_uartTransferStatus status);
-/* ---------------------------------------------------------------------------*/
-
-/*
- * Get UART data transfer status value
- */
-t_uartTransferStatus uart_data_transfer_status_get(void);
-/* ---------------------------------------------------------------------------*/
-
-/*
- * Clear packet buffer
- */
-void packetBuffer_reset(void);
+void gen3_GPIO_init(void);
 /* ---------------------------------------------------------------------------*/
 
 
-#endif /* UART_BUFFER_H_ */
+#endif /* GEN3_INIT_H_ */

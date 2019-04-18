@@ -46,16 +46,12 @@ static uint8_t current_path;
  * Public variables
  */
 
-uint8_t ErrorMessage[] = "Wrong path!";
 /* ----------------------------------------------------------------------------
  * Public functions
  */
 
 
 /* ---------------------------------------------------------------------------*/
-/*
- * Used to set default path as No data path
- */
 void path_init(void)
 {
 	current_path = NO_DATA_PATH_FLAG;
@@ -64,10 +60,6 @@ void path_init(void)
 
 
 /* ---------------------------------------------------------------------------*/
-/*
- * This function reads the sensor type from the header and sends the command to
- * initialise path for specific header
- */
 uint8_t init_path_for_header_config(const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
@@ -93,37 +85,7 @@ uint8_t init_path_for_header_config(const uint8_t pBuffer[])
 }
 /* ---------------------------------------------------------------------------*/
 
-
 /* ---------------------------------------------------------------------------*/
-/*
- * Check data from buffer matches the current
- * initialised path and send command to transmit data
- */
-uint8_t transmit_data_via_path(const uint8_t pBuffer[])
-{
-	uint8_t retVal = NOK;
-	uint8_t pathType = pBuffer[0] & HEADER_PATH_MASK;
-
-	if(get_path() == pathType)
-	{
-		/* the path matches the header data, now assign it to the right sensor and transmit */
-		retVal = transmit_sensor_data(pathType, pBuffer);
-	}
-//	else
-//	{
-//		HAL_UART_Transmit_IT(&uart1, &ErrorMessage[0], strlen(&ErrorMessage[0]));
-//	}
-
-	return retVal;
-}
-/* ---------------------------------------------------------------------------*/
-
-
-/* ---------------------------------------------------------------------------*/
-/*
- * Actual initialisation of a path depending
- * on the path type passed in
- */
 uint8_t set_path(uint8_t pathType)
 {
 
@@ -133,7 +95,9 @@ uint8_t set_path(uint8_t pathType)
 	{
 
 	case (GEN5_PATH_FLAG):
-		MX_SPI1_Init();
+
+		//TODO add new init functions depending on sensor type
+//		SPI1_Init();
 		retVal = OK;
 	break;
 
@@ -148,11 +112,27 @@ uint8_t set_path(uint8_t pathType)
 }
 /* ---------------------------------------------------------------------------*/
 
+/* ---------------------------------------------------------------------------*/
+uint8_t get_path(void)
+{
+	return current_path;
+}
+/* ---------------------------------------------------------------------------*/
+
 
 /* ---------------------------------------------------------------------------*/
-/*
- * Transmit data using right path
- */
+void clear_path(uint8_t pathType)
+{
+	switch(pathType)
+	{
+	case(GEN5_PATH_FLAG):
+//		HAL_SPI_DeInit(&spi1);
+	break;
+	}
+}
+/* ---------------------------------------------------------------------------*/
+
+/* ---------------------------------------------------------------------------*/
 uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
@@ -176,29 +156,19 @@ uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 }
 /* ---------------------------------------------------------------------------*/
 
-
 /* ---------------------------------------------------------------------------*/
-/*
- * Read current path initialised
- */
-uint8_t get_path(void)
+uint8_t transmit_data_via_path(const uint8_t pBuffer[])
 {
-	return current_path;
-}
-/* ---------------------------------------------------------------------------*/
+	uint8_t retVal = NOK;
+	uint8_t pathType = pBuffer[0] & HEADER_PATH_MASK;
 
-
-/* ---------------------------------------------------------------------------*/
-/*
- * De-init path passed in
- */
-void clear_path(uint8_t pathType)
-{
-	switch(pathType)
+	if(get_path() == pathType)
 	{
-	case(GEN5_PATH_FLAG):
-		HAL_SPI_DeInit(&spi1);
-	break;
+		/* the path matches the header data, now assign it to the right sensor and transmit */
+		retVal = transmit_sensor_data(pathType, pBuffer);
 	}
+	// TODO Add error handling
+
+	return retVal;
 }
 /* ---------------------------------------------------------------------------*/

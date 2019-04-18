@@ -51,18 +51,17 @@ static uint8_t UART_RxData_Byte = 0;
  */
 
 /* ----------------------------------------------------------------------------*/
-/*
- * UART interrupt callback - fill in UART RxBuffer
- */
-
 void uart_isr_init(void)
 {
-
-	HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, 1);
+	HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, sizeof(UART_RxData_Byte));
 }
+/* ----------------------------------------------------------------------------*/
 
+/* ----------------------------------------------------------------------------*/
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+	 // UART interrupt callback - fill in UART RxBuffer
+
 	if (huart->Instance == USART1)
 	{
 

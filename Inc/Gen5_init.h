@@ -2,21 +2,18 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
  */
 
-#ifndef UART_BUFFER_H_
-#define UART_BUFFER_H_
+#ifndef GEN5_INIT_H_
+#define GEN5_INIT_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
  */
-#include "stdint.h"
-#include "common.h"
-
+#include "stm32f4xx_hal.h"
 /* ---------------------------------------------------------------------------
  * Constants
  */
@@ -24,7 +21,8 @@
 /* ---------------------------------------------------------------------------
  * Macros
  */
-#define UART_RX_BUFFER_SIZE ((uint8_t) 20)
+#define G5_IRQ_Pin GPIO_PIN_1
+#define G5_IRQ_GPIO_Port GPIOC
 /* ---------------------------------------------------------------------------
  * Types
  */
@@ -38,46 +36,27 @@
  */
 
 /*
- * Initialise UART buffer
+ * Initialise G5 peripherals
  */
-void uart_rxBuffer_init(void);
+void gen5_periph_init(void);
 /* ---------------------------------------------------------------------------*/
 
 /*
- * Get data from UART buffer
+ * De-Initialise G5 peripherals
  */
-uint8_t * uart_rxBuffer_get(void);
+void gen5_periph_deinit(void);
 /* ---------------------------------------------------------------------------*/
 
 /*
- * Store data in UART buffer
+ * Inisialise SPI1 driver
  */
-void uart_rxBuffer_update(uint8_t data);
+void SPI1_Init(void);
 /* ---------------------------------------------------------------------------*/
 
 /*
- * Reset UART Rx Index
+ * Initialise GPIOs used for Gen5
  */
-void uart_rxBuffer_index_reset(void);
+void G5_IRQ_Pin_Init(void);
 /* ---------------------------------------------------------------------------*/
 
-/*
- * Set UART data transfer status
- */
-void uart_data_transfer_status_set(t_uartTransferStatus status);
-/* ---------------------------------------------------------------------------*/
-
-/*
- * Get UART data transfer status value
- */
-t_uartTransferStatus uart_data_transfer_status_get(void);
-/* ---------------------------------------------------------------------------*/
-
-/*
- * Clear packet buffer
- */
-void packetBuffer_reset(void);
-/* ---------------------------------------------------------------------------*/
-
-
-#endif /* UART_BUFFER_H_ */
+#endif /* GEN5_INIT_H_ */

@@ -33,6 +33,11 @@
 /* ---------------------------------------------------------------------------
  * Functions
  */
+
+/*
+ * Process data packet depending on header type
+ */
 uint8_t process_packet(const uint8_t packetBuffer[]);
+/* ----------------------------------------------------------------------------*/
 
 #endif /* PROCESS_PACKET_H_ */

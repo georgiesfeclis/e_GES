@@ -5,6 +5,9 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Src/G5Datagrams.c \
+../Src/Gen2_init.c \
+../Src/Gen3_init.c \
+../Src/Gen5_init.c \
 ../Src/header.c \
 ../Src/init.c \
 ../Src/main.c \
@@ -18,6 +21,9 @@ C_SRCS += \
 
 OBJS += \
 ./Src/G5Datagrams.o \
+./Src/Gen2_init.o \
+./Src/Gen3_init.o \
+./Src/Gen5_init.o \
 ./Src/header.o \
 ./Src/init.o \
 ./Src/main.o \
@@ -31,6 +37,9 @@ OBJS += \
 
 C_DEPS += \
 ./Src/G5Datagrams.d \
+./Src/Gen2_init.d \
+./Src/Gen3_init.d \
+./Src/Gen5_init.d \
 ./Src/header.d \
 ./Src/init.d \
 ./Src/main.d \

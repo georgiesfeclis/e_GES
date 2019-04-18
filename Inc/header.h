@@ -47,7 +47,16 @@ typedef enum
  * Functions
  */
 
+/*
+ * Read UART Rx buffer and set Pack ID type (i.e Sensor data or Configuration data)
+ */
 void header_uart_packID_set(const uint8_t packetBuffer[]);
+/* ----------------------------------------------------------------------------*/
+
+/*
+ * Return Pack ID type
+ */
 t_Header_PacketID header_uart_packID_get(void);
+/* ----------------------------------------------------------------------------*/
 
 #endif /* HEADER_H_ */

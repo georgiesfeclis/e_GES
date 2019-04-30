@@ -22,6 +22,7 @@
 #include "G5Datagrams.h"
 #include "uart_buffer.h"
 #include "path.h"
+#include "Gen5_init.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -97,7 +98,7 @@ uint8_t set_path(uint8_t pathType)
 	case (GEN5_PATH_FLAG):
 
 		//TODO add new init functions depending on sensor type
-//		SPI1_Init();
+		gen5_periph_init();
 		retVal = OK;
 	break;
 

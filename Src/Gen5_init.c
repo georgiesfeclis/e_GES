@@ -17,11 +17,11 @@
  */
 #include "common.h"
 #include "init.h"
+#include "spi_slave.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
-//TODO is it possible to make it static?? - IRQ handler in stm32_xxxx_it.c issue
-SPI_HandleTypeDef spi1;
+
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -51,6 +51,7 @@ void gen5_periph_init(void)
 {
 	SPI1_Init();
 	G5_IRQ_Pin_Init();
+	spi_isr_init();
 }
 /* ---------------------------------------------------------------------------*/
 

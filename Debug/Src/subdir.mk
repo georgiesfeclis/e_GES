@@ -10,7 +10,7 @@ C_SRCS += \
 ../Src/Gen5_init.c \
 ../Src/header.c \
 ../Src/init.c \
-../Src/main.c \
+../Src/main2.c \
 ../Src/path.c \
 ../Src/process_packet.c \
 ../Src/spi_slave.c \
@@ -27,7 +27,7 @@ OBJS += \
 ./Src/Gen5_init.o \
 ./Src/header.o \
 ./Src/init.o \
-./Src/main.o \
+./Src/main2.o \
 ./Src/path.o \
 ./Src/process_packet.o \
 ./Src/spi_slave.o \
@@ -44,7 +44,7 @@ C_DEPS += \
 ./Src/Gen5_init.d \
 ./Src/header.d \
 ./Src/init.d \
-./Src/main.d \
+./Src/main2.d \
 ./Src/path.d \
 ./Src/process_packet.d \
 ./Src/spi_slave.d \

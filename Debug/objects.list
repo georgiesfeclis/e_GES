@@ -22,7 +22,7 @@
 "Src/Gen5_init.o"
 "Src/header.o"
 "Src/init.o"
-"Src/main.o"
+"Src/main2.o"
 "Src/path.o"
 "Src/process_packet.o"
 "Src/spi_slave.o"

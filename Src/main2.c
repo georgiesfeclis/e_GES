@@ -20,6 +20,8 @@
 #include "common.h"
 #include "process_packet.h"
 #include "spi_slave.h"
+#include "Gen5_init.h"
+#include "Gen2_init.h"
 
 /* ----------------------------------------------------------------------------
  * Private types
@@ -52,7 +54,7 @@
 int main(void)
 {
 	uint8_t * const packetBuffer = uart_rxBuffer_get();
-
+	uint8_t message[4] = {0xA5, 0x5A, 0x45, 0x2D};
 	HAL_Init();
 
 	/* Configure the system clock */
@@ -66,7 +68,12 @@ int main(void)
 	//	  MX_SPI2_Init();
 
 	path_init();
+	gen2_GPIOs_init();
+
+	SPI1_Init();
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 	uart_isr_init();
+//	HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
 
 
 	/* Infinite loop */
@@ -79,6 +86,9 @@ int main(void)
 		  packetBuffer_reset();
 	  }
 	  counter();
+	  HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
+
+	  HAL_Delay(500);
 
   }
 

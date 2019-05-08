@@ -13,6 +13,7 @@ C_SRCS += \
 ../Src/main2.c \
 ../Src/path.c \
 ../Src/process_packet.c \
+../Src/ring_buffer.c \
 ../Src/spi_slave.c \
 ../Src/stm32f4xx_hal_msp.c \
 ../Src/stm32f4xx_it.c \
@@ -30,6 +31,7 @@ OBJS += \
 ./Src/main2.o \
 ./Src/path.o \
 ./Src/process_packet.o \
+./Src/ring_buffer.o \
 ./Src/spi_slave.o \
 ./Src/stm32f4xx_hal_msp.o \
 ./Src/stm32f4xx_it.o \
@@ -47,6 +49,7 @@ C_DEPS += \
 ./Src/main2.d \
 ./Src/path.d \
 ./Src/process_packet.d \
+./Src/ring_buffer.d \
 ./Src/spi_slave.d \
 ./Src/stm32f4xx_hal_msp.d \
 ./Src/stm32f4xx_it.d \

@@ -14,7 +14,7 @@
 /* ---------------------------------------------------------------------------
  * Uses
  */
-#include "stdint.h"
+
 #include "common.h"
 
 /* ---------------------------------------------------------------------------
@@ -25,10 +25,15 @@
  * Macros
  */
 #define UART_RX_BUFFER_SIZE ((uint8_t) 20)
+#define BYTE_MASK            0xFFUL
 /* ---------------------------------------------------------------------------
  * Types
  */
-
+typedef enum
+{
+	IDLE_STATE = 0,
+	RXDATA_STATE,
+}t_rxType;
 /* ---------------------------------------------------------------------------
  * Variables
  */
@@ -78,6 +83,8 @@ t_uartTransferStatus uart_data_transfer_status_get(void);
  */
 void packetBuffer_reset(void);
 /* ---------------------------------------------------------------------------*/
+uint8_t process_rx_data(const uint8_t data);
+uint8_t rx_buffer_crc_calculation(void);
 
 
 #endif /* UART_BUFFER_H_ */

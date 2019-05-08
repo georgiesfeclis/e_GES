@@ -28,6 +28,9 @@
 #define SENSOR_DATA_FLAG         ((uint8_t) 0x00)
 #define CONFIG_DATA_FLAG         ((uint8_t) 0x01)
 
+#define SIZE_BYTE_INDEX          ((uint8_t)    0)
+#define HEADER_BYTE_INDEX        ((uint8_t)    1)
+
 /* ---------------------------------------------------------------------------
  * Types
  */

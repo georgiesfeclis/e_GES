@@ -64,14 +64,18 @@ int main(void)
 	MX_GPIO_Init();
 	//	  MX_SPI1_Init();
 	MX_USART1_UART_Init();
-	//	  MX_DAC_Init();
-	//	  MX_SPI2_Init();
+
+//	gen3_periph_init();
+//	gen2_periph_init();
+//	gen5_periph_init();
+//		  MX_DAC_Init();
+//		  MX_SPI2_Init();
 
 	path_init();
 	gen2_GPIOs_init();
 
 	SPI1_Init();
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+
 	uart_isr_init();
 //	HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
 
@@ -87,7 +91,7 @@ int main(void)
 	  }
 	  counter();
 	  HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
-
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
 	  HAL_Delay(500);
 
   }

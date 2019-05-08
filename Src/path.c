@@ -23,6 +23,7 @@
 #include "uart_buffer.h"
 #include "path.h"
 #include "Gen5_init.h"
+#include "header.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -64,7 +65,7 @@ void path_init(void)
 uint8_t init_path_for_header_config(const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
-	uint8_t pathType = pBuffer[0] & HEADER_PATH_MASK;
+	uint8_t pathType = pBuffer[HEADER_BYTE_INDEX] & HEADER_PATH_MASK;
 
 	if(NO_DATA_PATH_FLAG == current_path)
 	{
@@ -161,7 +162,7 @@ uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 uint8_t transmit_data_via_path(const uint8_t pBuffer[])
 {
 	uint8_t retVal = NOK;
-	uint8_t pathType = pBuffer[0] & HEADER_PATH_MASK;
+	uint8_t pathType = pBuffer[HEADER_BYTE_INDEX] & HEADER_PATH_MASK;
 
 	if(get_path() == pathType)
 	{

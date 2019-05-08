@@ -43,11 +43,11 @@ static t_Header_PacketID UART_PackID = NO_DATA;
 /* ----------------------------------------------------------------------------*/
 void header_uart_packID_set(const uint8_t packetBuffer[])
 {
-	if((packetBuffer[0] & HEADER_PACK_ID_MASK) == SENSOR_DATA_FLAG)
+	if((packetBuffer[HEADER_BYTE_INDEX] & HEADER_PACK_ID_MASK) == SENSOR_DATA_FLAG)
 	{
 		UART_PackID = SENSOR_DATA;
 	}
-	else if((packetBuffer[0] & HEADER_PACK_ID_MASK) == CONFIG_DATA_FLAG)
+	else if((packetBuffer[HEADER_BYTE_INDEX] & HEADER_PACK_ID_MASK) == CONFIG_DATA_FLAG)
 	{
 		UART_PackID = CONFIG_DATA;
 	}
@@ -62,5 +62,9 @@ t_Header_PacketID header_uart_packID_get(void)
 }
 /* ----------------------------------------------------------------------------*/
 
-
-
+/* ----------------------------------------------------------------------------*/
+uint8_t get_data_size(const uint8_t packetBuffer[])
+{
+	return packetBuffer[SIZE_BYTE_INDEX];
+}
+/* ----------------------------------------------------------------------------*/

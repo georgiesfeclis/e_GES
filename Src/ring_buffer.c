@@ -2,7 +2,6 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
- * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
@@ -12,20 +11,15 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <uart_buffer.h>
-#include "uart_isr.h"
-
-// This is an upcall expected by the HAL layer
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+#include "ring_buffer.h"
 /* ----------------------------------------------------------------------------
  * Uses
  */
-#include "header.h"
-#include "init.h"
+
 /* ----------------------------------------------------------------------------
  * Private types
  */
-
+t_RingBuffer sensorData;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -37,7 +31,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-static uint8_t UART_RxData_Byte = 0;
+
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -49,28 +43,18 @@ static uint8_t UART_RxData_Byte = 0;
 /* ----------------------------------------------------------------------------
  * Public functions
  */
-
 /* ----------------------------------------------------------------------------*/
-void uart_isr_init(void)
+void ring_buffer_clear(void)
 {
-	HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, sizeof(UART_RxData_Byte));
+	sensorData.HeadIndex = 0;
+	sensorData.TailIndex = 0;
 }
 /* ----------------------------------------------------------------------------*/
 
+
 /* ----------------------------------------------------------------------------*/
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+void ring_buffer_queue(const uint8_t const pRxBuffer)
 {
-	 // UART interrupt callback - fill in UART RxBuffer
 
-	if (huart->Instance == USART1)
-	{
-		if (INCOMPLETE == uart_data_transfer_status_get())
-		{
-			process_rx_data(UART_RxData_Byte);
-		}
-
-		HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, 1);
-	}
 }
 /* ----------------------------------------------------------------------------*/
-

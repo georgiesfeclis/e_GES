@@ -23,6 +23,8 @@
 #include "Gen5_init.h"
 #include "Gen2_init.h"
 
+#include "ring_buffer.h"
+
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -53,8 +55,8 @@
 
 int main(void)
 {
-	uint8_t * const packetBuffer = uart_rxBuffer_get();
-	uint8_t message[4] = {0xA5, 0x5A, 0x45, 0x2D};
+	t_rxBuffer * const packetBuffer = uart_rxBuffer_get();
+//	uint8_t message[4] = {0xA5, 0x5A, 0x45, 0x2D};
 	HAL_Init();
 
 	/* Configure the system clock */
@@ -77,6 +79,7 @@ int main(void)
 	SPI1_Init();
 
 	uart_isr_init();
+	ring_buffer_clear();
 //	HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
 
 
@@ -86,13 +89,14 @@ int main(void)
 
 	  if(uart_data_transfer_status_get() == COMPLETE)
 	  {
-		  process_packet(&packetBuffer[0]);
+//		  process_packet(&packetBuffer[0]);
+//		  ring_buffer_queue(packetBuffer);
 		  packetBuffer_reset();
 	  }
-	  counter();
-	  HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
-	  HAL_Delay(500);
+//	  counter();
+//	  HAL_SPI_Transmit(&spi1, &message[0], 4, HAL_MAX_DELAY);
+//	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
+//	  HAL_Delay(500);
 
   }
 

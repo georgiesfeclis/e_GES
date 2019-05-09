@@ -24,7 +24,7 @@
 /* ---------------------------------------------------------------------------
  * Macros
  */
-#define UART_RX_BUFFER_SIZE ((uint8_t) 20)
+#define UART_RX_BUFFER_SIZE ((uint8_t) 64)
 #define BYTE_MASK            0xFFUL
 /* ---------------------------------------------------------------------------
  * Types
@@ -34,6 +34,14 @@ typedef enum
 	IDLE_STATE = 0,
 	RXDATA_STATE,
 }t_rxType;
+
+
+typedef struct
+{
+	uint8_t DataSize;
+	uint8_t PacketBuffer[UART_RX_BUFFER_SIZE];
+	uint8_t Checksum;
+}t_rxBuffer;
 /* ---------------------------------------------------------------------------
  * Variables
  */
@@ -51,7 +59,7 @@ void uart_rxBuffer_init(void);
 /*
  * Get data from UART buffer
  */
-uint8_t * uart_rxBuffer_get(void);
+t_rxBuffer * uart_rxBuffer_get(void);
 /* ---------------------------------------------------------------------------*/
 
 /*
@@ -60,6 +68,10 @@ uint8_t * uart_rxBuffer_get(void);
 void uart_rxBuffer_update(uint8_t data);
 /* ---------------------------------------------------------------------------*/
 
+void uart_rxBuffer_size_byte_set(uint8_t sizeByte);
+uint8_t uart_rxBuffer_size_byte_get(void);
+void uart_rxBuffer_crc_byte_set(uint8_t sizeByte);
+uint8_t uart_rxBuffer_crc_byte_get(void);
 /*
  * Reset UART Rx Index
  */

@@ -15,11 +15,12 @@
 /* ----------------------------------------------------------------------------
  * Uses
  */
-
+#include "common.h"
+#include "uart_buffer.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
-t_RingBuffer sensorData;
+static t_RingBuffer sensorData;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -51,10 +52,58 @@ void ring_buffer_clear(void)
 }
 /* ----------------------------------------------------------------------------*/
 
+/* ----------------------------------------------------------------------------*/
+int ring_buffer_is_full(void)
+{
+	return sensorData.TailIndex == ((sensorData.HeadIndex + 1) % RING_BUFFER_SIZE);
+}
+/* ----------------------------------------------------------------------------*/
 
 /* ----------------------------------------------------------------------------*/
-void ring_buffer_queue(const uint8_t const pRxBuffer)
+int ring_buffer_is_empty(void)
 {
+	return sensorData.HeadIndex == sensorData.TailIndex;
+}
+/* ----------------------------------------------------------------------------*/
+
+/* ----------------------------------------------------------------------------*/
+void ring_buffer_queue(const t_rxBuffer * const pRxBuffer)
+{
+
+	if(ring_buffer_is_full())
+	{
+		/* If buffer is full, overwrite the oldest byte of data */
+		sensorData.TailIndex = (uint8_t)((sensorData.TailIndex + 1) % RING_BUFFER_SIZE);
+	}
+
+		sensorData.SensorData[sensorData.HeadIndex] = *pRxBuffer;
+
+	sensorData.HeadIndex = (uint8_t)((sensorData.HeadIndex + 1) % RING_BUFFER_SIZE);
 
 }
 /* ----------------------------------------------------------------------------*/
+
+/* ----------------------------------------------------------------------------*/
+uint8_t ring_buffer_dequeue(t_rxBuffer * pSensorData)
+{
+	uint8_t retVal;
+
+	if(ring_buffer_is_empty())
+	{
+		/* no items to be returned */
+		retVal = NOK;
+	}
+	else
+	{
+		*pSensorData = sensorData.SensorData[sensorData.TailIndex];
+
+		sensorData.TailIndex = (uint8_t)((sensorData.TailIndex + 1) % RING_BUFFER_SIZE);
+
+		retVal = OK;
+	}
+
+	return retVal;
+}
+/* ----------------------------------------------------------------------------*/
+
+

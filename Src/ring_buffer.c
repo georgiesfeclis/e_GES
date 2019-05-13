@@ -69,6 +69,7 @@ int ring_buffer_is_empty(void)
 /* ----------------------------------------------------------------------------*/
 void ring_buffer_queue(const t_rxBuffer * const pRxBuffer)
 {
+	t_rxBuffer * temp = &sensorData.SensorData[sensorData.HeadIndex];
 
 	if(ring_buffer_is_full())
 	{
@@ -76,7 +77,7 @@ void ring_buffer_queue(const t_rxBuffer * const pRxBuffer)
 		sensorData.TailIndex = (uint8_t)((sensorData.TailIndex + 1) % RING_BUFFER_SIZE);
 	}
 
-		sensorData.SensorData[sensorData.HeadIndex] = *pRxBuffer;
+	*temp = *pRxBuffer;
 
 	sensorData.HeadIndex = (uint8_t)((sensorData.HeadIndex + 1) % RING_BUFFER_SIZE);
 

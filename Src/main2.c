@@ -90,7 +90,7 @@ int main(void)
 	  if(uart_data_transfer_status_get() == COMPLETE)
 	  {
 //		  process_packet(&packetBuffer[0]);
-//		  ring_buffer_queue(packetBuffer);
+		  ring_buffer_queue(packetBuffer);
 		  packetBuffer_reset();
 	  }
 //	  counter();

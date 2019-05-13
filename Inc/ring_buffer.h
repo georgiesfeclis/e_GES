@@ -24,7 +24,7 @@
  */
 #define RING_BUFFER_SIZE            ((uint8_t) 8)
 #define MAX_DATA_SIZE               ((uint8_t) 64)
-//#define RING_BUFFER_MASK            ((uint8_t) (RING_BUFFER_SIZE-1))
+
 /* ---------------------------------------------------------------------------
  * Types
  */
@@ -32,9 +32,9 @@ typedef struct
 {
 	uint8_t TailIndex;
 	uint8_t HeadIndex;
-//	t_rxBuffer SensorData[RING_BUFFER_SIZE][MAX_DATA_SIZE];
 	t_rxBuffer SensorData[RING_BUFFER_SIZE];
 }t_RingBuffer;
+
 /* ---------------------------------------------------------------------------
  * Variables
  */

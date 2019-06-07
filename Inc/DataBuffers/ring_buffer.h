@@ -7,14 +7,14 @@
  * Multi line overview here if useful.
  */
 
-#ifndef RING_BUFFER_H_
-#define RING_BUFFER_H_
+#ifndef DATABUFFERS_RING_BUFFER_H_
+#define DATABUFFERS_RING_BUFFER_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
  */
+#include <DataBuffers/uart_buffer.h>
 #include <stdint.h>
-#include "uart_buffer.h"
 /* ---------------------------------------------------------------------------
  * Constants
  */
@@ -73,4 +73,4 @@ void ring_buffer_queue(const t_rxBuffer * pRxBuffer);
 uint8_t ring_buffer_dequeue(t_rxBuffer * pSensorData);
 /* ---------------------------------------------------------------------------*/
 
-#endif /* RING_BUFFER_H_ */
+#endif /* DATABUFFERS_RING_BUFFER_H_ */

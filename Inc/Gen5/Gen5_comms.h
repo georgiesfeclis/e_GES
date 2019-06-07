@@ -2,13 +2,14 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
+ * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
  */
 
-#ifndef SPI_SLAVE_H_
-#define SPI_SLAVE_H_
+#ifndef GEN5_GEN5_COMMS_H_
+#define GEN5_GEN5_COMMS_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
@@ -22,6 +23,8 @@
  * Macros
  */
 
+#define BIT_SET        1
+#define BIT_RESET      0
 /* ---------------------------------------------------------------------------
  * Types
  */
@@ -33,8 +36,6 @@
 /* ---------------------------------------------------------------------------
  * Functions
  */
-
-uint8_t counter(void);
-void spi_isr_init(void);
-
-#endif /* SPI_SLAVE_H_ */
+void rf_reset_cmd_handle(void);
+uint8_t rf_cmd_handle(const uint8_t spiRxByte);
+#endif /* GEN5_GEN5_COMMS_H_ */

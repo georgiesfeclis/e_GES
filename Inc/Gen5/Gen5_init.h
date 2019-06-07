@@ -7,8 +7,8 @@
  * Multi line overview here if useful.
  */
 
-#ifndef GEN5_INIT_H_
-#define GEN5_INIT_H_
+#ifndef GEN5_GEN5_INIT_H_
+#define GEN5_GEN5_INIT_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
@@ -59,4 +59,4 @@ void SPI1_Init(void);
 void G5_IRQ_Pin_Init(void);
 /* ---------------------------------------------------------------------------*/
 
-#endif /* GEN5_INIT_H_ */
+#endif /* GEN5_GEN5_INIT_H_ */

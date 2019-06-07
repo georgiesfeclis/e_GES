@@ -12,7 +12,7 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include "uart_buffer.h"
+#include <DataBuffers/uart_buffer.h>
 
 /* ----------------------------------------------------------------------------
  * Uses
@@ -143,11 +143,10 @@ void packetBuffer_reset(void)
 uint8_t process_rx_data(const uint8_t data)
 {
 	static t_rxType statusType = IDLE_STATE;
-	uint8_t retVal = 0;
 	static uint8_t sizeByte = 0;
 	static uint8_t i = 0;
 	uint8_t calculated_crc = 0;
-	uint8_t rx_crc = 0;
+	uint8_t retVal = 0;
 
 	switch(statusType)
 	{
@@ -158,7 +157,7 @@ uint8_t process_rx_data(const uint8_t data)
 		break;
 
 	case RXDATA_STATE:
-		if(i < sizeByte)
+		if(i < (sizeByte))
 		{
 			uart_rxBuffer_update(data);
 			i++;
@@ -169,14 +168,15 @@ uint8_t process_rx_data(const uint8_t data)
 
 			if(calculated_crc == data)
 			{
-				rx_crc = data;
 				statusType = IDLE_STATE;
-				uart_rxBuffer_crc_byte_set(rx_crc);
+				uart_rxBuffer_crc_byte_set(data);
 				uart_data_transfer_status_set(COMPLETE);
 				retVal = OK;
 			}
 			else
 			{
+				// TODO: Add error handling - if data is not good send error to pc
+				packetBuffer_reset();
 				statusType = IDLE_STATE;
 				retVal = NOK;
 			}
@@ -186,6 +186,7 @@ uint8_t process_rx_data(const uint8_t data)
 		break;
 
 	default:
+		packetBuffer_reset();
 		retVal = NOK;
 	break;
 	}
@@ -197,6 +198,8 @@ uint8_t process_rx_data(const uint8_t data)
 /* ---------------------------------------------------------------------------*/
 uint8_t rx_buffer_crc_calculation(void)
 {
+	/* Note: The CRC calculation does not include the size byte */
+	/* TODO: maybe it should include size byte?  - think of g5 RSSI buffer */
 	uint32_t sum = 0;
 	uint8_t masked_sum = 0;
 	uint8_t CRC = 0;

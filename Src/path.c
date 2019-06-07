@@ -11,7 +11,8 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <header.h>
+#include "path.h"
+
 
 /* ----------------------------------------------------------------------------
  * Uses
@@ -19,11 +20,10 @@
 #include <string.h>
 #include "common.h"
 #include "init.h"
-#include "G5Datagrams.h"
-#include "uart_buffer.h"
-#include "path.h"
-#include "Gen5_init.h"
-#include "header.h"
+#include <DataBuffers/uart_buffer.h>
+#include <Gen5/Gen5_init.h>
+#include <header.h>
+
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -137,6 +137,7 @@ void clear_path(uint8_t pathType)
 /* ---------------------------------------------------------------------------*/
 uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 {
+	// TODO: this doesn't belong here???
 	uint8_t retVal = NOK;
 
 	switch(pathType)
@@ -146,7 +147,8 @@ uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 			 * G5 ECU will request the specific data stored in the datagrams
 			 * once it receives the an interrupt saying that the buffer is full
 			 */
-		retVal = assign_g5_data_to_datagram(pBuffer);
+//		retVal = assign_g5_data_to_datagram(pBuffer);
+		retVal = OK;
 	break;
 
 	default:
@@ -161,6 +163,7 @@ uint8_t transmit_sensor_data(uint8_t pathType, const uint8_t pBuffer[])
 /* ---------------------------------------------------------------------------*/
 uint8_t transmit_data_via_path(const uint8_t pBuffer[])
 {
+	// TODO This doesn't belong here
 	uint8_t retVal = NOK;
 	uint8_t pathType = pBuffer[HEADER_BYTE_INDEX] & HEADER_PATH_MASK;
 

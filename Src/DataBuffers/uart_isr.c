@@ -2,6 +2,7 @@
  * Copyright (c) 2019 bf1systems
  *
  * @file
+ * @author: Georgiana-Elena Sfeclis
  * One line summary
  *
  * Multi line overview here if useful.
@@ -11,12 +12,15 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include "spi_slave.h"
+#include <DataBuffers/uart_isr.h>
+
+/* This is an upcall expected by the HAL layer */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 /* ----------------------------------------------------------------------------
  * Uses
  */
-#include "Gen5_init.h"
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
+#include <DataBuffers/uart_buffer.h>
+#include "init.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -32,7 +36,7 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-static uint8_t steve = 0;
+static uint8_t UART_RxData_Byte = 0;
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -46,19 +50,26 @@ static uint8_t steve = 0;
  */
 
 /* ----------------------------------------------------------------------------*/
-
-uint8_t counter(void)
+void uart_isr_init(void)
 {
-	return steve++;
+	HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, sizeof(UART_RxData_Byte));
 }
+/* ----------------------------------------------------------------------------*/
 
-
-void spi_isr_init(void)
+/* ----------------------------------------------------------------------------*/
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	HAL_SPI_Transmit_IT(&spi1, &steve, 1);
-}
+	 // UART interrupt callback - fill in UART RxBuffer
 
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	HAL_SPI_Transmit_IT(&spi1, &steve, 1);
+	if (huart->Instance == USART1)
+	{
+		if (INCOMPLETE == uart_data_transfer_status_get())
+		{
+			process_rx_data(UART_RxData_Byte);
+		}
+
+		HAL_UART_Receive_IT(&uart1, &UART_RxData_Byte, 1);
+	}
 }
+/* ----------------------------------------------------------------------------*/
+

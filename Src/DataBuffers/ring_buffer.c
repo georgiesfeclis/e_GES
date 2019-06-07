@@ -11,15 +11,13 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include "ring_buffer.h"
-/* ----------------------------------------------------------------------------
- * Uses
- */
+#include <DataBuffers/ring_buffer.h>
+#include <DataBuffers/uart_buffer.h>
 #include "common.h"
-#include "uart_buffer.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
+
 static t_RingBuffer sensorData;
 /* ----------------------------------------------------------------------------
  * Private defines
@@ -44,6 +42,7 @@ static t_RingBuffer sensorData;
 /* ----------------------------------------------------------------------------
  * Public functions
  */
+
 /* ----------------------------------------------------------------------------*/
 void ring_buffer_clear(void)
 {

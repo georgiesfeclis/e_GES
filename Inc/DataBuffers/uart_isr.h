@@ -8,8 +8,8 @@
  * Multi line overview here if useful.
  */
 
-#ifndef UART_ISR_H_
-#define UART_ISR_H_
+#ifndef DATABUFFERS_UART_ISR_H_
+#define DATABUFFERS_UART_ISR_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
@@ -43,4 +43,4 @@
 void uart_isr_init(void);
 /* ---------------------------------------------------------------------------*/
 
-#endif /* UART_ISR_H_ */
+#endif /* DATABUFFERS_UART_ISR_H_ */

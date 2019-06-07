@@ -62,8 +62,7 @@ uint8_t process_packet(const uint8_t packetBuffer[])
 	break;
 
 	case SENSOR_DATA:
-//		get_data_size();
-//		transmit_data_via_path(packetBuffer);
+		transmit_data_via_path(packetBuffer);
 		retVal = OK;
 	break;
 

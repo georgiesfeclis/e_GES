@@ -8,8 +8,8 @@
  * Multi line overview here if useful.
  */
 
-#ifndef UART_BUFFER_H_
-#define UART_BUFFER_H_
+#ifndef DATABUFFERS_UART_BUFFER_H_
+#define DATABUFFERS_UART_BUFFER_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
@@ -99,4 +99,4 @@ uint8_t process_rx_data(const uint8_t data);
 uint8_t rx_buffer_crc_calculation(void);
 
 
-#endif /* UART_BUFFER_H_ */
+#endif /* DATABUFFERS_UART_BUFFER_H_ */

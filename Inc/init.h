@@ -84,6 +84,4 @@ void _Error_Handler(char *file, int line);
  */
 
 
-
-
 UART_HandleTypeDef uart1;

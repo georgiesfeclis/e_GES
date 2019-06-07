@@ -11,13 +11,9 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include "Gen5_init.h"
-/* ----------------------------------------------------------------------------
- * Uses
- */
+#include <Gen5/Gen5_init.h>
 #include "common.h"
-#include "init.h"
-#include "spi_slave.h"
+//#include "init.h"
 /* ----------------------------------------------------------------------------
  * Private types
  */
@@ -51,7 +47,6 @@ void gen5_periph_init(void)
 {
 	SPI1_Init();
 	G5_IRQ_Pin_Init();
-	spi_isr_init();
 }
 /* ---------------------------------------------------------------------------*/
 
@@ -75,7 +70,7 @@ void SPI1_Init(void)
   spi1.Init.DataSize = SPI_DATASIZE_8BIT;
   spi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   spi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  spi1.Init.NSS = SPI_NSS_HARD_INPUT;
+  spi1.Init.NSS = SPI_NSS_SOFT;
   spi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   spi1.Init.TIMode = SPI_TIMODE_DISABLE;
   spi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

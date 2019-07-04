@@ -18,10 +18,15 @@ C_SRCS += \
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c 
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.c \
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.c \
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.c \
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.c \
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.c \
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.c 
 
 OBJS += \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o \
@@ -38,10 +43,15 @@ OBJS += \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o \
-./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.o \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o \
-./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o 
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.o \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.o \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.o \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.o \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.o \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o 
 
 C_DEPS += \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d \
@@ -58,10 +68,15 @@ C_DEPS += \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.d \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.d \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.d \
-./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.d \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.d \
 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.d \
-./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.d 
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.d \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.d \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.d \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.d \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.d \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.d \
+./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -69,7 +84,7 @@ Drivers/STM32F4xx_HAL_Driver/Src/%.o: ../Drivers/STM32F4xx_HAL_Driver/Src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU GCC Compiler'
 	@echo $(PWD)
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DSTM32F410Rx -DUSE_HAL_DRIVER -I"E:/embedded/e_GES/Inc" -I"E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc" -I"E:/embedded/e_GES/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"E:/embedded/e_GES/Drivers/CMSIS/Include" -I"E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DSTM32F410Rx -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER -I"E:/embedded/e_GES/Inc" -I"E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc" -I"E:/embedded/e_GES/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"E:/embedded/e_GES/Drivers/CMSIS/Include" -I"E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

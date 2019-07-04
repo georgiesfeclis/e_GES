@@ -7,8 +7,8 @@
  * Multi line overview here if useful.
  */
 
-#ifndef GEN5_SPI2_ISR_H_
-#define GEN5_SPI2_ISR_H_
+#ifndef GEN5_SPI1_DRIVERS_H_
+#define GEN5_SPI1_DRIVERS_H_
 
 /* ---------------------------------------------------------------------------
  * Uses
@@ -33,7 +33,9 @@
 /* ---------------------------------------------------------------------------
  * Functions
  */
+void Activate_SPI1(void);
+void SPI1_Rx_Callback(void);
+void SPI1_TransferError_Callback(void);
+void Configure_SPI1(void);
 
-void spi1_isr_init(void);
-
-#endif /* GEN5_SPI2_ISR_H_ */
+#endif /* GEN5_SPI1_DRIVERS_H_ */

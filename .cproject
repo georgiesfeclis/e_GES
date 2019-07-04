@@ -44,7 +44,7 @@
 									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
 									<listOptionValue builtIn="false" value="STM32F410Rx" />
 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-								</option>
+								<listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1064820923" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.266901228" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.400963841" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
@@ -64,7 +64,7 @@
 									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
 									<listOptionValue builtIn="false" value="STM32F410Rx" />
 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-								</option>
+								<listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
 								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.1908279069" name="Other flags" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.966400408" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.210582140" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s" />
@@ -150,7 +150,7 @@
 									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
 									<listOptionValue builtIn="false" value="STM32F410Rx" />
 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-								</option>
+								<listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1064820923" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.266901228" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.400963841" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
@@ -170,7 +170,7 @@
 									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
 									<listOptionValue builtIn="false" value="STM32F410Rx" />
-								</option>
+								<listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
 								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.1908279069" name="Other flags" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<option id="gnu.cpp.compiler.option.preprocessor.def.686606933" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />

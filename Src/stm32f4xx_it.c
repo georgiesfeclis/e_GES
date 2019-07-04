@@ -34,14 +34,13 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
+#include "Gen5/spi1_drivers.h"
 
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern SPI_HandleTypeDef spi1;
-extern SPI_HandleTypeDef spi2;
 extern UART_HandleTypeDef uart1;
 
 /******************************************************************************/
@@ -255,13 +254,16 @@ void EXTI9_5_IRQHandler(void)
 */
 void SPI1_IRQHandler(void)
 {
-  /* USER CODE BEGIN SPI1_IRQn 0 */
+	  if(SPI1->SR & SPI_SR_RXNE)
+	  {
+	    /* Call function Slave Reception Callback */
 
-  /* USER CODE END SPI1_IRQn 0 */
-  HAL_SPI_IRQHandler(&spi1);
-  /* USER CODE BEGIN SPI1_IRQn 1 */
-
-  /* USER CODE END SPI1_IRQn 1 */
+		  SPI1_Rx_Callback();
+	  }
+	  else if (SPI1->SR & SPI_SR_OVR)
+	  {
+		  SPI1_TransferError_Callback();
+	  }
 }
 
 /**
@@ -272,7 +274,6 @@ void SPI2_IRQHandler(void)
   /* USER CODE BEGIN SPI2_IRQn 0 */
 
   /* USER CODE END SPI2_IRQn 0 */
-  HAL_SPI_IRQHandler(&spi2);
   /* USER CODE BEGIN SPI2_IRQn 1 */
 
   /* USER CODE END SPI2_IRQn 1 */

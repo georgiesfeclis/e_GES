@@ -19,7 +19,6 @@
 /* ----------------------------------------------------------------------------
  * Private types
  */
-SPI_HandleTypeDef spi2;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -47,8 +46,8 @@ SPI_HandleTypeDef spi2;
 /* ----------------------------------------------------------------------------*/
 void gen2_periph_init(void)
 {
-	SPI2_Init();
 	gen2_GPIOs_init();
+	//activate spi
 }
 /* ----------------------------------------------------------------------------*/
 
@@ -56,7 +55,7 @@ void gen2_periph_init(void)
 void gen2_periph_deinit(void)
 {
 	gen2_GPIOs_init();
-	HAL_SPI_DeInit(&spi2);
+	//deactivate spi
 }
 /* ----------------------------------------------------------------------------*/
 
@@ -133,26 +132,53 @@ void disable_gen2_interrupts(void)
 /* ----------------------------------------------------------------------------*/
 
 /* ----------------------------------------------------------------------------*/
-void SPI2_Init(void)
+/* SPI2 init function */
+void Configure_SPI2(void)
 {
 
+  LL_SPI_InitTypeDef SPI_InitStruct;
+
+  LL_GPIO_InitTypeDef GPIO_InitStruct;
+
+  /* Peripheral clock enable */
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2);
+
+  /**SPI2 GPIO Configuration
+  PB13   ------> SPI2_SCK
+  PB14   ------> SPI2_MISO
+  PB15   ------> SPI2_MOSI
+  */
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_13|LL_GPIO_PIN_14|LL_GPIO_PIN_15;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
+  LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* SPI2 interrupt Init */
+  NVIC_SetPriority(SPI2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(SPI2_IRQn);
+
   /* SPI2 parameter configuration*/
-  spi2.Instance = SPI2;
-  spi2.Init.Mode = SPI_MODE_MASTER;
-  spi2.Init.Direction = SPI_DIRECTION_2LINES;
-  spi2.Init.DataSize = SPI_DATASIZE_8BIT;
-  spi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  spi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  spi2.Init.NSS = SPI_NSS_SOFT;
-  spi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-  spi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  spi2.Init.TIMode = SPI_TIMODE_DISABLE;
-  spi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  spi2.Init.CRCPolynomial = 15;
-  if (HAL_SPI_Init(&spi2) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+  SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
+  SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;
+  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
+  SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
+  SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
+  SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV2;
+  SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
+  SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
+  SPI_InitStruct.CRCPoly = 15;
+  LL_SPI_Init(SPI2, &SPI_InitStruct);
+
+  LL_SPI_SetStandard(SPI2, LL_SPI_PROTOCOL_MOTOROLA);
+
+  /* Enable SPI TX, RX and ERROR interrupt registers. */
+  SPI2->CR2 |= SPI_CR2_RXNEIE;
+  SPI2->CR2 |= SPI_CR2_TXEIE;
+  SPI2->CR2 |= SPI_CR2_ERRIE;
 
 }
 /* ----------------------------------------------------------------------------*/

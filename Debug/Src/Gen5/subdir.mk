@@ -4,18 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/Gen5/Gen5_comms.c \
-../Src/Gen5/Gen5_init.c \
+../Src/Gen5/gen5_comms.c \
 ../Src/Gen5/spi1_drivers.c 
 
 OBJS += \
-./Src/Gen5/Gen5_comms.o \
-./Src/Gen5/Gen5_init.o \
+./Src/Gen5/gen5_comms.o \
 ./Src/Gen5/spi1_drivers.o 
 
 C_DEPS += \
-./Src/Gen5/Gen5_comms.d \
-./Src/Gen5/Gen5_init.d \
+./Src/Gen5/gen5_comms.d \
 ./Src/Gen5/spi1_drivers.d 
 
 

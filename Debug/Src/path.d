@@ -38,7 +38,7 @@ Src/path.o: ../Src/path.c E:/embedded/e_GES/Inc/path.h \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  E:/embedded/e_GES/Inc/DataBuffers/uart_buffer.h \
- E:/embedded/e_GES/Inc/Gen5/Gen5_init.h E:/embedded/e_GES/Inc/header.h
+ E:/embedded/e_GES/Inc/header.h
 
 E:/embedded/e_GES/Inc/path.h:
 
@@ -123,7 +123,5 @@ E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
 E:/embedded/e_GES/Inc/DataBuffers/uart_buffer.h:
-
-E:/embedded/e_GES/Inc/Gen5/Gen5_init.h:
 
 E:/embedded/e_GES/Inc/header.h:

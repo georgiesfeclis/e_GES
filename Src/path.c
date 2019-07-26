@@ -21,7 +21,6 @@
 #include "common.h"
 #include "init.h"
 #include <DataBuffers/uart_buffer.h>
-#include <Gen5/Gen5_init.h>
 #include <header.h>
 
 /* ----------------------------------------------------------------------------
@@ -99,7 +98,7 @@ uint8_t set_path(uint8_t pathType)
 	case (GEN5_PATH_FLAG):
 
 		//TODO add new init functions depending on sensor type
-		gen5_periph_init();
+//		gen5_periph_init();
 		retVal = OK;
 	break;
 

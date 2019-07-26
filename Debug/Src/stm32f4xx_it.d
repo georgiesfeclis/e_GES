@@ -37,7 +37,7 @@ Src/stm32f4xx_it.o: ../Src/stm32f4xx_it.c \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  E:/embedded/e_GES/Inc/stm32f4xx_it.h \
- E:/embedded/e_GES/Inc/Gen5/spi1_drivers.h
+ E:/embedded/e_GES/Inc/Gen5\spi1_drivers.h
 
 E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -117,4 +117,4 @@ E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
 E:/embedded/e_GES/Inc/stm32f4xx_it.h:
 
-E:/embedded/e_GES/Inc/Gen5/spi1_drivers.h:
+E:/embedded/e_GES/Inc/Gen5\spi1_drivers.h:

@@ -34,7 +34,6 @@
 "Src/stm32f4xx_hal_msp.o"
 "Src/stm32f4xx_it.o"
 "Src/system_stm32f4xx.o"
-"Src/Gen5/Gen5_comms.o"
-"Src/Gen5/Gen5_init.o"
+"Src/Gen5/gen5_comms.o"
 "Src/Gen5/spi1_drivers.o"
 "startup/startup_stm32f410rx.o"

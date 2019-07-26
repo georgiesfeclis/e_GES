@@ -34,7 +34,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
-#include "Gen5/spi1_drivers.h"
+#include "Gen5\spi1_drivers.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -254,16 +254,17 @@ void EXTI9_5_IRQHandler(void)
 */
 void SPI1_IRQHandler(void)
 {
-	  if(SPI1->SR & SPI_SR_RXNE)
-	  {
-	    /* Call function Slave Reception Callback */
+	if(SPI1->SR & (SPI_SR_TXE))
+	{
+	SPI1_Tx_Callback();
+	}
 
-		  SPI1_Rx_Callback();
-	  }
-	  else if (SPI1->SR & SPI_SR_OVR)
-	  {
-		  SPI1_TransferError_Callback();
-	  }
+//	while (!(SPI1->SR & (SPI_SR_TXE)));
+//	while (!(SPI1->SR & (SPI_SR_RXNE)));
+//	while (!(SPI1->SR & (SPI_SR_BSY)));
+//
+//	SPI1_Rx_Callback();
+
 }
 
 /**

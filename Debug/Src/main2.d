@@ -40,8 +40,8 @@ Src/main2.o: ../Src/main2.c \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- E:/embedded/e_GES/Inc/Gen5/Gen5_init.h E:/embedded/e_GES/Inc/init.h \
- E:/embedded/e_GES/Inc/path.h E:/embedded/e_GES/Inc/Gen5/spi1_drivers.h
+ E:/embedded/e_GES/Inc/init.h E:/embedded/e_GES/Inc/path.h \
+ E:/embedded/e_GES/Inc/Gen5/spi1_drivers.h
 
 E:/embedded/e_GES/Inc/DataBuffers/ring_buffer.h:
 
@@ -126,8 +126,6 @@ E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 
 E:/embedded/e_GES/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-
-E:/embedded/e_GES/Inc/Gen5/Gen5_init.h:
 
 E:/embedded/e_GES/Inc/init.h:
 

@@ -14,7 +14,6 @@
 #include <DataBuffers/ring_buffer.h>
 #include <DataBuffers/uart_buffer.h>
 #include <DataBuffers/uart_isr.h>
-#include <Gen5/Gen5_init.h>
 #include "common.h"
 #include "init.h"
 #include "path.h"
@@ -53,7 +52,7 @@
 int main(void)
 {
 //	t_rxBuffer * const packetBuffer = uart_rxBuffer_get();
-//	uint8_t message[4] = {0xA5, 0x5A, 0x45, 0x2D};
+
 	HAL_Init();
 
 	/* Configure the system clock */
@@ -61,22 +60,18 @@ int main(void)
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
-	MX_USART1_UART_Init();
+//	MX_USART1_UART_Init();
 
 	/* Configure SPI1 Bus, initialise NVIC interrupts and enbale SPI1 interrupt registers, Activate SPI1. */
 	Configure_SPI1();
 	Activate_SPI1();
-
-
-
-//	gen5_periph_init();
-
+	G5_IRQ_Pin_Init();
 //	path_init();
-
 
 //	uart_isr_init();
 //	ring_buffer_clear();
-
+//	SPI1_Tx_Callback();
+	Activate_IRQ_on_chip_select();
 	/* Infinite loop */
 	while (1)
 	{

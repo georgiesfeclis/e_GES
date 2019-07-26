@@ -37,5 +37,12 @@
  * Functions
  */
 void rf_reset_cmd_handle(void);
-uint8_t rf_cmd_handle(const uint8_t spiRxByte);
+void rf_event_clear_all(void);
+uint8_t rf_event_sys_get(void);
+uint8_t rf_event_event_get(void);
+
+
+
+
+
 #endif /* GEN5_GEN5_COMMS_H_ */

@@ -12,10 +12,7 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <Gen5/Gen5_comms.h>
-/* ----------------------------------------------------------------------------
- * Uses
- */
+#include <Gen5/gen5_comms.h>
 #include <Gen5/rf_commands.h>
 /* ----------------------------------------------------------------------------
  * Private types
@@ -50,10 +47,10 @@ static t_config_ev config_ev;
  */
 
 /* ----------------------------------------------------------------------------*/
-void rf_event_clear_all(void)
+void Configure_RF_Events(void)
 {
-	system_ev.system_ev_byte = 0;
-	event_ev.event_ev_byte   = 0;
+	system_ev.system_ev_byte = 0x04;
+	event_ev.event_ev_byte   = 0x07;
 	power_ev.power_ev_byte   = 0;
 	config_ev.config_ev_byte = 0;
 }
@@ -78,12 +75,12 @@ uint8_t rf_event_power_get(void)
 }
 /* ----------------------------------------------------------------------------*/
 
-///* ----------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------*/
 uint8_t rf_event_config_get(void)
 {
 	return config_ev.config_ev_byte;
 }
-///* ----------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------*/
 
 /* ----------------------------------------------------------------------------*/
 void rf_reset_cmd_handle(void)
@@ -92,28 +89,12 @@ void rf_reset_cmd_handle(void)
 }
 /* ----------------------------------------------------------------------------*/
 
-/* ----------------------------------------------------------------------------*/
-uint8_t rf_cmd_handle(const uint8_t spiRxByte)
+/* ---------------------------------------------------------------------------*/
+uint8_t get_conifgured_cfg_byte(void)
 {
-	uint8_t retVal;
-	switch(spiRxByte)
-	{
-	case RF_CMD_READ_RX_FILL:
-			system_ev.sys_ev_bits.sys_rdy = BIT_SET;
-			retVal = system_ev.system_ev_byte;
-		break;
-	case RF_CMD_GET_EV_BYTES:
-			system_ev.sys_ev_bits.sys_rdy = BIT_SET;
-			retVal = system_ev.system_ev_byte;
-			break;
-	case 0x00:
-		retVal = event_ev.event_ev_byte;
-		break;
-	default:
-		retVal = 0x00;
-		break;
-	}
+	config_ev.config_ev_bits.pathB = 1;
+	config_ev.config_ev_bits.ser = 3;
 
-	return retVal;
+	return config_ev.config_ev_byte;
 }
-/* ----------------------------------------------------------------------------*/
+

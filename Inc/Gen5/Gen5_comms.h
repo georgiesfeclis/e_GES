@@ -28,7 +28,13 @@
 /* ---------------------------------------------------------------------------
  * Types
  */
+typedef struct
+{
+	uint8_t cmd_name;
+	uint8_t cmd_size;
+}t_GEN5_RxData;
 
+t_GEN5_RxData GEN5_RxData;
 /* ---------------------------------------------------------------------------
  * Variables
  */
@@ -36,6 +42,9 @@
 /* ---------------------------------------------------------------------------
  * Functions
  */
+void Increment_RxCount(void);
+uint16_t Get_RxCount(void);
+void Reset_RxCount(void);
 void rf_reset_cmd_handle(void);
 void rf_event_clear_all(void);
 uint8_t rf_event_sys_get(void);

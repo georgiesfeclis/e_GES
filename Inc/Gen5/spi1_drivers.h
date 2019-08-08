@@ -27,11 +27,11 @@
  */
 typedef enum
 {
-	SysEventState = 0,
-	EvEventState = 1,
-	HandlingState = 2
-//	DataTxState = 3,
-//	ErrorState = 0xFF
+	InitState = 0,
+	IdleState,
+	ActivationState,
+	TxRxState,
+	DeInitState
 } t_states;
 
 typedef enum
@@ -39,6 +39,18 @@ typedef enum
 	BufEmpty = 0,
 	BufNotEmpty = 1
 } t_BufStatus;
+
+typedef enum
+{
+	InitEventState = 0,
+	IdleRfState,
+	EventTxState,
+	HandlingState,
+	DataTxState
+}t_RfCmdHandle;
+
+
+
 /* ---------------------------------------------------------------------------
  * Variables
  */
@@ -55,6 +67,6 @@ void G5_IRQ_Pin_Init(void);
 uint8_t get_tx_flag(void);
 void set_tx_flag(void);
 void reset_tx_flag(void);
-void Activate_IRQ_on_chip_select(void);
+//void Activate_IRQ_on_chip_select(void);
 
 #endif /* GEN5_SPI1_DRIVERS_H_ */

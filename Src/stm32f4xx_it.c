@@ -35,6 +35,8 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 #include "Gen5\spi1_drivers.h"
+#include "Gen5\gen5_comms.h"
+#include "Gen5\rf_commands.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -254,16 +256,26 @@ void EXTI9_5_IRQHandler(void)
 */
 void SPI1_IRQHandler(void)
 {
-	if(SPI1->SR & (SPI_SR_TXE))
+	switch(Get_RxCount())
 	{
-	SPI1_Tx_Callback();
+	case 0:
+		GEN5_RxData.cmd_name = SPI1->DR;
+		//HERE: This is dangerous: can't do anything in main loop if this is here
+//		while (!(SPI1->SR & (SPI_SR_RXNE)));
+	break;
+
+	case 1:
+		GEN5_RxData.cmd_size = SPI1->DR;
+		//HERE: This is dangerous: can't do anything in main loop if this is here
+//		while (!(SPI1->SR & (SPI_SR_RXNE)));
+	break;
+
+	default:
+
+	break;
 	}
 
-//	while (!(SPI1->SR & (SPI_SR_TXE)));
-//	while (!(SPI1->SR & (SPI_SR_RXNE)));
-//	while (!(SPI1->SR & (SPI_SR_BSY)));
-//
-//	SPI1_Rx_Callback();
+	Increment_RxCount();
 
 }
 

@@ -18,6 +18,8 @@
 #include "init.h"
 #include "path.h"
 #include "Gen5/spi1_drivers.h"
+#include "Gen5/gen5_comms.h"
+#include "Gen5/rf_commands.h"
 //#include "header.h"
 //#include "G5Datagrams.h"
 
@@ -66,21 +68,58 @@ int main(void)
 	Configure_SPI1();
 	Activate_SPI1();
 	G5_IRQ_Pin_Init();
+
 //	path_init();
 
 //	uart_isr_init();
 //	ring_buffer_clear();
 //	SPI1_Tx_Callback();
-	Activate_IRQ_on_chip_select();
+
 	/* Infinite loop */
 	while (1)
 	{
-
+		/* Fill in Sensor Data circular buffer with data from PC */
 //	  if(uart_data_transfer_status_get() == COMPLETE)
 //	  {
 //		  ring_buffer_queue(packetBuffer);
 //		  packetBuffer_reset();
 //	  }
+
+		if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == 1)
+		{
+			Reset_RxCount();
+		}
+
+//		switch(GEN5_RxData.cmd_name)
+//		{
+//		case RF_CMD_SET_WDG:
+//		case RF_CMD_SYS_RESET:
+//			if(Get_RxCount() == 2)
+//			{
+//				Reset_RxCount();
+//			}
+//			break;
+//		case RF_CMD_READ_RX_FILL:
+//		case RF_CMD_READ_RSSI_FILL:
+//		case RF_CMD_SET_SYS_MODE:
+//			if(Get_RxCount() == 2)
+//			{
+//				Reset_RxCount();
+//			}
+//			break;
+//		case RF_CMD_GET_EV_BYTES:
+//			if(Get_RxCount() == 4)
+//			{
+//				Reset_RxCount();
+//			}
+//			break;
+//		default:
+//			if (GEN5_RxData.cmd_size == (Get_RxCount()-1))
+//			{
+//				Reset_RxCount();
+//			}
+//			break;
+//		}
 	}
 
 }

@@ -35,9 +35,10 @@
  */
 static uint8_t spi1RxBuffer[5];
 static uint32_t spi1DataIndex = 0;
-uint8_t dataToSend = 0xCB;
-static t_BufStatus TxFlag = BufEmpty;
-volatile t_states txState = SysEventState;
+//static t_BufStatus TxFlag = BufEmpty;
+volatile t_states txState = InitState;
+volatile t_RfCmdHandle RfCmdState = InitEventState;
+
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -49,20 +50,6 @@ volatile t_states txState = SysEventState;
 /* ----------------------------------------------------------------------------
  * Public functions
  */
-t_BufStatus get_tx_flag(void)
-{
-	return TxFlag;
-}
-
-void set_tx_flag(void)
-{
-	TxFlag = BufNotEmpty;
-}
-
-void reset_tx_flag(void)
-{
-	TxFlag = BufEmpty;
-}
 
 /*
  * SPI1 Activation - enable register
@@ -77,27 +64,23 @@ void Activate_SPI1(void)
 /*
  * Check for chip select
  */
-void Activate_IRQ_on_chip_select(void)
-{
-	if(LL_GPIO_IsInputPinSet(GPIOA, LL_GPIO_PIN_4))
-	{
-		  /* Disable SPI TX, RX and ERROR interrupt registers. */
-		  SPI1->CR2 &= SPI_CR2_RXNEIE;
-		  SPI1->CR2 &= SPI_CR2_TXEIE;
-		  txState = SysEventState;
+//void Activate_IRQ_on_chip_select(void)
+//{
+//	if(GPIOA->IDR, LL_GPIO_PIN_4 == LL_GPIO_PIN_4)
+//	{
+//		  /* Disable SPI TX, RX and ERROR interrupt registers. */
+//		  SPI1->CR2 &= SPI_CR2_RXNEIE;
+//		  SPI1->CR2 &= SPI_CR2_TXEIE;
 //		  SPI1->CR2 |= SPI_CR2_ERRIE;
-	}
-	else
-	{
-		/* Enable SPI TX, RX and ERROR interrupt registers. */
-
-		SPI1->CR2 |= SPI_CR2_RXNEIE;
-		SPI1->CR2 |= SPI_CR2_TXEIE;
-
-
-//		  SPI1->CR2 &= SPI_CR2_ERRIE;
-	}
-}
+//	}
+//	else
+//	{
+//		/* Enable SPI TX, RX and ERROR interrupt registers. */
+//		SPI1->CR2 |= SPI_CR2_RXNEIE;
+//		SPI1->CR2 |= SPI_CR2_TXEIE;
+//		SPI1->CR2 &= SPI_CR2_ERRIE;
+//	}
+//}
 
 /*
  * Reset SPI data index
@@ -128,40 +111,61 @@ void SPI1_Rx_Callback(void)
 /* ---------------------------------------------------------------------------*/
 void SPI1_Tx_Callback(void)
 {
-  /* Write character in Data register.
-  TXE flag is cleared by writing data to DR register */
-	switch(txState)
-	{
 
-	case(SysEventState):
-			SPI1->DR = rf_event_sys_get();
-			txState = EvEventState;
-	break;
 
-	case (EvEventState):
-			SPI1->DR = rf_event_event_get();
-			txState = HandlingState;
-	break;
-
-	case(HandlingState):
-			SPI1->DR = 0x00;
-////			switch(spi1RxBuffer[0])
-////			{
-////				//TODO: create state machine for command control? - should be in g5 comms.
-////			}
-////			txState = DataTxState;
-	break;
-//
-//	case (DataTxState):
-////			SPI1->DR = data?
-//		break;
-//	case(ErrorState):
-//			break;
-//
-	}
+//	/*Tx/Rx state machine - handle interrupts and replay with data from while loop */
+//	uint8_t IRQ_Flag = 0;
+//	switch(txState)
+//	{
+//	case(IdleState):
+//		IRQ_Flag = 0;
+//			if(IRQ_Flag == 1)
+//			{
+//				SPI1->CR2 &= SPI_CR2_RXNEIE;
+//				SPI1->CR2 &= SPI_CR2_TXEIE;
+//			}
+//			if(GPIOA->IDR, LL_GPIO_PIN_4 == LL_GPIO_PIN_4)
+//			{
+//				txState = ActivationState;
+//			}
+//	break;
+//	case(ActivationState):
+//			SPI1->CR2 |= SPI_CR2_RXNEIE;
+//			SPI1->CR2 |= SPI_CR2_TXEIE;
+//			IRQ_Flag = 1;
+//			if((GPIOA->IDR, LL_GPIO_PIN_4 == 0))
+//			{
+//				txState = TxRxState;
+//			}
+//			else
+//			{
+//				txState = IdleState;
+//			}
+//	break;
+//	case(TxRxState):
+//			//Set flag for loading SPI DR state machine. isn't it a bit late?
+//	break;
+//	case(DeInitState):
+//		SPI1->CR2 &= SPI_CR2_RXNEIE;
+//		SPI1->CR2 &= SPI_CR2_TXEIE;
+//		SPI1->CR1 |= SPI_CR1_SPE;
+//	break;
+//	}
 }
 /* ---------------------------------------------------------------------------*/
 
+
+/* ---------------------------------------------------------------------------*/
+/*
+ * RF command handling state machine
+ */
+void RF_Command_Handling(void)
+{
+
+}
+/* ---------------------------------------------------------------------------*/
+/* Write character in Data register.
+TXE flag is cleared by writing data to DR register */
 /*
  * SPI Transfer Error Callback
  */
@@ -231,8 +235,13 @@ void Configure_SPI1(void)
 	  LL_SPI_SetStandard(SPI1, LL_SPI_PROTOCOL_MOTOROLA);
 
 
+	  // Enable Receive interrupt
+	  SPI1->CR2 |= SPI_CR2_RXNEIE;
 
+	  SPI1->DR = 0;
 
+	  GEN5_RxData.cmd_name = 0x0;
+	  GEN5_RxData.cmd_size = 0x0;
 
 }
 /* ---------------------------------------------------------------------------*/

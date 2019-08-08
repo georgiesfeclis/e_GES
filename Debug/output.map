@@ -4625,7 +4625,7 @@ Discarded input sections
                 0x00000000       0x28 Src/header.o
  .debug_ranges  0x00000000       0x18 Src/header.o
  .debug_macro   0x00000000       0x8a Src/header.o
- .debug_macro   0x00000000      0xa60 Src/header.o
+ .debug_macro   0x00000000      0xa66 Src/header.o
  .debug_macro   0x00000000       0x22 Src/header.o
  .debug_macro   0x00000000       0x87 Src/header.o
  .debug_macro   0x00000000       0x51 Src/header.o
@@ -4636,7 +4636,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 Src/header.o
  .debug_macro   0x00000000       0x2e Src/header.o
  .debug_line    0x00000000      0x33b Src/header.o
- .debug_str     0x00000000     0x3dd2 Src/header.o
+ .debug_str     0x00000000     0x3de7 Src/header.o
  .comment       0x00000000       0x7f Src/header.o
  .debug_frame   0x00000000       0x30 Src/header.o
  .ARM.attributes
@@ -5155,7 +5155,7 @@ Discarded input sections
                 0x00000000       0x20 Src/process_packet.o
  .debug_ranges  0x00000000       0x10 Src/process_packet.o
  .debug_macro   0x00000000       0x88 Src/process_packet.o
- .debug_macro   0x00000000      0xa60 Src/process_packet.o
+ .debug_macro   0x00000000      0xa66 Src/process_packet.o
  .debug_macro   0x00000000       0x22 Src/process_packet.o
  .debug_macro   0x00000000       0x87 Src/process_packet.o
  .debug_macro   0x00000000       0x51 Src/process_packet.o
@@ -5166,7 +5166,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x2e Src/process_packet.o
  .debug_macro   0x00000000       0x34 Src/process_packet.o
  .debug_line    0x00000000      0x323 Src/process_packet.o
- .debug_str     0x00000000     0x3eb5 Src/process_packet.o
+ .debug_str     0x00000000     0x3eca Src/process_packet.o
  .comment       0x00000000       0x7f Src/process_packet.o
  .debug_frame   0x00000000       0x28 Src/process_packet.o
  .ARM.attributes

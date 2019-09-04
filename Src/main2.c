@@ -38,7 +38,7 @@
 /* ----------------------------------------------------------------------------
  * Private variables 
  */
-
+uint32_t tick_reset;
 /* ----------------------------------------------------------------------------
  * Private functions
  */
@@ -54,6 +54,7 @@
 int main(void)
 {
 //	t_rxBuffer * const packetBuffer = uart_rxBuffer_get();
+
 
 	HAL_Init();
 
@@ -75,6 +76,7 @@ int main(void)
 //	ring_buffer_clear();
 //	SPI1_Tx_Callback();
 
+
 	/* Infinite loop */
 	while (1)
 	{
@@ -87,10 +89,15 @@ int main(void)
 
 		if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == 1)
 		{
+
 			Reset_RxCount();
+			tick_reset = HAL_GetTick();
 		}
 
-//		switch(GEN5_RxData.cmd_name)
+
+
+
+//		switch(Get_RfCommand_Name())
 //		{
 //		case RF_CMD_SET_WDG:
 //		case RF_CMD_SYS_RESET:
@@ -114,7 +121,7 @@ int main(void)
 //			}
 //			break;
 //		default:
-//			if (GEN5_RxData.cmd_size == (Get_RxCount()-1))
+//			if (Get_RfCommand_Size() == (Get_RxCount()-1))
 //			{
 //				Reset_RxCount();
 //			}

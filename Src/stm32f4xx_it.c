@@ -251,32 +251,28 @@ void EXTI9_5_IRQHandler(void)
   /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
+uint8_t array[40];
+static uint8_t indexx = 0;
 /**
 * @brief This function handles SPI1 global interrupt.
 */
 void SPI1_IRQHandler(void)
 {
-	switch(Get_RxCount())
+	/* Read DR on every interrupt to clear RXNE flag and avoid overruns (OVR flag set) */
+	const uint8_t RxData __attribute__((unused)) = ((uint8_t)SPI1->DR);
+
+	if(0 == Get_RxCount())
 	{
-	case 0:
-		GEN5_RxData.cmd_name = SPI1->DR;
-		//HERE: This is dangerous: can't do anything in main loop if this is here
-//		while (!(SPI1->SR & (SPI_SR_RXNE)));
-	break;
-
-	case 1:
-		GEN5_RxData.cmd_size = SPI1->DR;
-		//HERE: This is dangerous: can't do anything in main loop if this is here
-//		while (!(SPI1->SR & (SPI_SR_RXNE)));
-	break;
-
-	default:
-
-	break;
+		Update_RfCommand_Name((uint8_t)SPI1->DR);
+		array[indexx++] = Get_RfCommand_Name();
+	}
+	else if(1 == Get_RxCount())
+	{
+		Update_RfCommand_Size((uint8_t)SPI1->DR);
 	}
 
+//	array[indexx++] = Get_RfCommand_Name;
 	Increment_RxCount();
-
 }
 
 /**

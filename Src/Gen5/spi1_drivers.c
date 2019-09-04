@@ -240,9 +240,6 @@ void Configure_SPI1(void)
 
 	  SPI1->DR = 0;
 
-	  GEN5_RxData.cmd_name = 0x0;
-	  GEN5_RxData.cmd_size = 0x0;
-
 }
 /* ---------------------------------------------------------------------------*/
 

@@ -12,7 +12,7 @@
 /* ----------------------------------------------------------------------------
  * Implements
  */
-#include <Gen5/gen5_comms.h>
+#include <Gen5/Gen5_comms.h>
 #include <Gen5/rf_commands.h>
 /* ----------------------------------------------------------------------------
  * Private types
@@ -24,6 +24,8 @@ static t_power_ev power_ev;
 static t_config_ev config_ev;
 
 static uint16_t rxCount = 0;
+
+static t_GEN5_RxData GEN5_RxData;
 /* ----------------------------------------------------------------------------
  * Private defines
  */
@@ -66,6 +68,32 @@ void Reset_RxCount(void)
 {
 	rxCount = 0;
 }
+/* ----------------------------------------------------------------------------*/
+
+/* ----------------------------------------------------------------------------*/
+void Update_RfCommand_Name(uint8_t cmd_name)
+{
+	GEN5_RxData.cmd_name = cmd_name;
+}
+/* ----------------------------------------------------------------------------*/
+
+/* ----------------------------------------------------------------------------*/
+void Update_RfCommand_Size(uint8_t cmd_size)
+{
+	GEN5_RxData.cmd_size = cmd_size;
+}
+/* ----------------------------------------------------------------------------*/
+
+uint8_t Get_RfCommand_Name(void)
+{
+	return GEN5_RxData.cmd_name;
+}
+
+uint8_t Get_RfCommand_Size(void)
+{
+	return GEN5_RxData.cmd_size;
+}
+
 /* ----------------------------------------------------------------------------*/
 void Configure_RF_Events(void)
 {

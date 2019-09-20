@@ -234,11 +234,11 @@ void Configure_SPI1(void)
 
 	  LL_SPI_SetStandard(SPI1, LL_SPI_PROTOCOL_MOTOROLA);
 
-
+	  SPI1->DR = RfEvent0.system_ev_byte;
 	  // Enable Receive interrupt
 	  SPI1->CR2 |= SPI_CR2_RXNEIE;
 
-	  SPI1->DR = 0;
+
 
 }
 /* ---------------------------------------------------------------------------*/

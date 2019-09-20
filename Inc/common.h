@@ -25,6 +25,9 @@
 #define OK     ((uint8_t) 1)
 #define NOK    ((uint8_t) 0)
 
+//#define RESET     ((uint8_t) 0)
+//#define SET       ((uint8_t) 1)
+
 /* ---------------------------------------------------------------------------
  * Types
  */
